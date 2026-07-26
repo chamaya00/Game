@@ -1,0 +1,10 @@
+node_modules/
+dist/
+.DS_Store
+*.log
+*.tsbuildinfo
+
+# iOS
+ios/Matched/Resources/*.json
+ios/**/xcuserdata/
+ios/**/*.xcodeproj/project.xcworkspace/xcuserdata/
