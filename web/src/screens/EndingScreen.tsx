@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import type { EndingResult, Gender, Role } from "../types";
-import { interpolate, tokens } from "../data/content";
+import type { EndingResult, Gender, Lang, Role } from "../types";
+import { renderText, tokens, ui } from "../data/content";
+import { LangToggle } from "../components/LangToggle";
 
 interface RevealedLine {
   type: "npc" | "system";
@@ -10,11 +11,15 @@ interface RevealedLine {
 }
 
 export function EndingScreen({
+  lang,
+  onLangChange,
   role,
   gender,
   result,
   onContinue,
 }: {
+  lang: Lang;
+  onLangChange: (lang: Lang) => void;
   role: Role;
   gender: Gender;
   result: EndingResult;
@@ -31,7 +36,7 @@ export function EndingScreen({
     const delay = nextBeat.type === "npc" && nextBeat.effect === "typing_long" ? tokens.animation.typingLongMs : 900;
 
     timer.current = window.setTimeout(() => {
-      const line: RevealedLine = { type: nextBeat.type, text: interpolate(nextBeat.text, name) };
+      const line: RevealedLine = { type: nextBeat.type, text: renderText(nextBeat.text, lang, name) };
       setLines((prev) => [...prev, line]);
 
       if (nextBeat.type === "npc" && nextBeat.effect === "glitch_subtle") {
@@ -46,7 +51,7 @@ export function EndingScreen({
         const idx = lines.length;
         window.setTimeout(() => {
           setLines((prev) =>
-            prev.map((l, i) => (i === idx ? { ...l, text: "Tin nhắn đã được thu hồi.", recalled: true } : l))
+            prev.map((l, i) => (i === idx ? { ...l, text: ui("messageRecalledPlaceholder", lang), recalled: true } : l))
           );
         }, tokens.animation.messageRecalledFlashMs);
       }
@@ -60,8 +65,11 @@ export function EndingScreen({
 
   return (
     <div className="screen ending-screen">
-      <div className="ending-label">{result === "good" ? "GOOD ENDING" : "BAD ENDING"}</div>
-      <h2 className="ending-title">{block.title}</h2>
+      <div className="lang-toggle-floating">
+        <LangToggle lang={lang} onChange={onLangChange} />
+      </div>
+      <div className="ending-label">{result === "good" ? ui("goodEndingLabel", lang) : ui("badEndingLabel", lang)}</div>
+      <h2 className="ending-title">{renderText(block.title, lang, name)}</h2>
       <div className="ending-body">
         {lines.map((l, i) => (
           <div
@@ -78,7 +86,7 @@ export function EndingScreen({
       </div>
       {lines.length >= block.beats.length && (
         <button className="primary-btn" onClick={onContinue}>
-          Quay lại danh sách
+          {ui("backToList", lang)}
         </button>
       )}
     </div>

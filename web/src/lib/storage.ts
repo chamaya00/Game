@@ -5,6 +5,7 @@ const STORAGE_KEY = "matched.save.v1";
 function emptySave(): SaveData {
   return {
     orientation: null,
+    lang: "vi",
     completedEndings: {},
     playedGender: {},
     epilogueSeen: false,

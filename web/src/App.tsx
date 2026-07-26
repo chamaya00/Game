@@ -5,9 +5,9 @@ import { MatchList } from "./screens/MatchList";
 import { Chat } from "./screens/Chat";
 import { EndingScreen } from "./screens/EndingScreen";
 import { Epilogue } from "./screens/Epilogue";
-import { getRole } from "./data/content";
+import { getRole, ui } from "./data/content";
 import { loadSave, resetSave, writeSave } from "./lib/storage";
-import type { EndingResult, Profile, SaveData } from "./types";
+import type { EndingResult, Lang, Profile, SaveData } from "./types";
 
 type Screen = "splash" | "orientation" | "list" | "chat" | "ending" | "epilogue";
 
@@ -17,9 +17,15 @@ export default function App() {
   const [activeProfile, setActiveProfile] = useState<Profile | null>(null);
   const [lastResult, setLastResult] = useState<EndingResult | null>(null);
 
+  const lang = save.lang;
+
   useEffect(() => {
     writeSave(save);
   }, [save]);
+
+  function handleLangChange(newLang: Lang) {
+    setSave((s) => ({ ...s, lang: newLang }));
+  }
 
   function handleOrientationChosen(orientation: SaveData["orientation"]) {
     setSave((s) => ({ ...s, orientation }));
@@ -46,9 +52,10 @@ export default function App() {
   }
 
   function handleResetRequest() {
-    if (window.confirm("Chơi lại từ đầu? Toàn bộ tiến trình hiện tại sẽ mất.")) {
+    if (window.confirm(ui("resetConfirm", lang))) {
+      const keepLang = save.lang;
       resetSave();
-      setSave(loadSave());
+      setSave({ ...loadSave(), lang: keepLang });
       setActiveProfile(null);
       setScreen("splash");
     }
@@ -56,12 +63,18 @@ export default function App() {
 
   return (
     <>
-      {screen === "splash" && <Splash onStart={() => setScreen(save.orientation ? "list" : "orientation")} />}
+      {screen === "splash" && (
+        <Splash lang={lang} onLangChange={handleLangChange} onStart={() => setScreen(save.orientation ? "list" : "orientation")} />
+      )}
 
-      {screen === "orientation" && <OrientationPicker onChoose={handleOrientationChosen} />}
+      {screen === "orientation" && (
+        <OrientationPicker lang={lang} onLangChange={handleLangChange} onChoose={handleOrientationChosen} />
+      )}
 
       {screen === "list" && save.orientation && (
         <MatchList
+          lang={lang}
+          onLangChange={handleLangChange}
           orientation={save.orientation}
           playedGender={save.playedGender}
           completedEndings={save.completedEndings}
@@ -73,6 +86,8 @@ export default function App() {
 
       {screen === "chat" && activeProfile && (
         <Chat
+          lang={lang}
+          onLangChange={handleLangChange}
           role={getRole(activeProfile.roleId)}
           gender={activeProfile.gender}
           onFinished={handleChatFinished}
@@ -82,6 +97,8 @@ export default function App() {
 
       {screen === "ending" && activeProfile && lastResult && (
         <EndingScreen
+          lang={lang}
+          onLangChange={handleLangChange}
           role={getRole(activeProfile.roleId)}
           gender={activeProfile.gender}
           result={lastResult}
@@ -90,7 +107,7 @@ export default function App() {
       )}
 
       {screen === "epilogue" && (
-        <Epilogue completedEndings={save.completedEndings} onBack={() => setScreen("list")} />
+        <Epilogue lang={lang} onLangChange={handleLangChange} completedEndings={save.completedEndings} onBack={() => setScreen("list")} />
       )}
     </>
   );

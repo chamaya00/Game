@@ -1,0 +1,41 @@
+{
+  "splashTagline": {
+    "vi": "Kết nối thật sự, ngay từ lần chạm đầu tiên.",
+    "en": "A real connection, from the very first tap."
+  },
+  "start": { "vi": "Bắt đầu", "en": "Start" },
+  "orientationHeading": {
+    "vi": "Bạn muốn kết nối với...",
+    "en": "Who do you want to connect with..."
+  },
+  "likeMen": { "vi": "Thích nam", "en": "Interested in men" },
+  "likeWomen": { "vi": "Thích nữ", "en": "Interested in women" },
+  "likeBoth": { "vi": "Cả hai", "en": "Both" },
+  "epilogueBanner": {
+    "vi": "Tất cả 8 kết nối đã hoàn thành — xem điều gì đang chờ đợi →",
+    "en": "All 8 connections complete — see what's waiting →"
+  },
+  "progressNote": {
+    "vi": "{count}/8 match đã hoàn thành",
+    "en": "{count}/8 matches completed"
+  },
+  "resetConfirm": {
+    "vi": "Chơi lại từ đầu? Toàn bộ tiến trình hiện tại sẽ mất.",
+    "en": "Start over? All current progress will be lost."
+  },
+  "backAria": { "vi": "Quay lại", "en": "Back" },
+  "settingsAria": { "vi": "Cài đặt / Chơi lại từ đầu", "en": "Settings / Restart" },
+  "onlineStatus": { "vi": "Đang hoạt động", "en": "Active now" },
+  "goodEndingLabel": { "vi": "KẾT THÚC TỐT", "en": "GOOD ENDING" },
+  "badEndingLabel": { "vi": "KẾT THÚC XẤU", "en": "BAD ENDING" },
+  "backToList": { "vi": "Quay lại danh sách", "en": "Back to list" },
+  "epilogueTally": {
+    "vi": "{good} tốt · {bad} xấu",
+    "en": "{good} good · {bad} bad"
+  },
+  "langToggleAria": { "vi": "Đổi ngôn ngữ", "en": "Switch language" },
+  "messageRecalledPlaceholder": {
+    "vi": "Tin nhắn đã được thu hồi.",
+    "en": "This message was recalled."
+  }
+}

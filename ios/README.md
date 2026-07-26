@@ -50,3 +50,14 @@ itself). To turn this into a buildable app:
 - Avatars are plain colored-circle-with-initial placeholders, matching the
   web build's placeholder-art decision — swap in real character art per
   section 11 later.
+- **No language toggle UI.** The content models now decode the bilingual
+  `{vi, en}` shape (`LocalizedText` in `Models/ContentModels.swift`) and
+  every view renders through `.text(lang:)` / `.rendered(lang:name:)`, but
+  `lang` is hardcoded to `.vi` throughout (`ChatViewModel`, `EndingView`,
+  `EpilogueView`, `MatchListView`) — there's no SwiftUI control to switch it
+  at runtime yet, unlike the web build's `LangToggle` button on every screen.
+  Threading a `@State var lang` down from `ContentView` and adding a toggle
+  button per screen would mirror `web/src/App.tsx` + `LangToggle.tsx`.
+- The "true ending" epilogue (exactly 8/8 bad endings, `epilogues.trueEnding`
+  in the content JSON) is wired into `GameState.selectedEpilogue()`, matching
+  the web build's logic in `web/src/screens/Epilogue.tsx`.

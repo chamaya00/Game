@@ -1,5 +1,29 @@
 import Foundation
 
+// MARK: - Localization
+//
+// Every player-facing string in the shared content is a {vi, en} pair.
+// UI-chrome strings (buttons, labels) live in a separate /content/ui-strings.json,
+// mirrored by web/src/data/content.ts's `ui()` helper — not yet wired into a
+// SwiftUI language toggle here (see ios/README.md for what's still unverified).
+
+enum Lang: String {
+    case vi, en
+}
+
+struct LocalizedText: Decodable {
+    let vi: String
+    let en: String
+
+    func text(_ lang: Lang) -> String {
+        lang == .en ? en : vi
+    }
+
+    func rendered(_ lang: Lang, name: String) -> String {
+        text(lang).replacingOccurrences(of: "{name}", with: name)
+    }
+}
+
 // MARK: - Dialogue beats
 //
 // Mirrors the shared schema in /content/roles.json (see web/src/types.ts for
@@ -7,18 +31,18 @@ import Foundation
 // discriminated by a "type" string, so it needs a manual Decodable init.
 
 struct NpcBeat: Decodable {
-    let text: String
+    let text: LocalizedText
     let clue: Bool?
     let effect: String? // "typing_long" | "message_recalled" | "glitch_subtle"
 }
 
 struct SystemBeat: Decodable {
-    let text: String
+    let text: LocalizedText
 }
 
 struct FlavorOption: Decodable {
-    let text: String
-    let response: String
+    let text: LocalizedText
+    let response: LocalizedText
 }
 
 struct FlavorChoiceBeat: Decodable {
@@ -26,22 +50,22 @@ struct FlavorChoiceBeat: Decodable {
 }
 
 struct BranchOption: Decodable {
-    let text: String
+    let text: LocalizedText
     let branch: [Beat]
 }
 
 struct MidpointChoiceBeat: Decodable {
-    let prompt: String?
+    let prompt: LocalizedText?
     let options: [BranchOption]
 }
 
 struct FinalOption: Decodable {
-    let text: String
+    let text: LocalizedText
     let leadsTo: String // "good" | "bad"
 }
 
 struct FinalChoiceBeat: Decodable {
-    let prompt: String?
+    let prompt: LocalizedText?
     let options: [FinalOption]
 }
 
@@ -73,7 +97,7 @@ enum Beat: Decodable {
 }
 
 struct EndingBlock: Decodable {
-    let title: String
+    let title: LocalizedText
     let beats: [Beat]
 }
 
@@ -91,7 +115,7 @@ struct Role: Decodable, Identifiable {
     let order: Int
     let accentColor: String
     let variants: RoleVariants
-    let profileHook: String
+    let profileHook: LocalizedText
     let vibe: String
     let horrorType: String
     let mysteryRole: String
@@ -111,7 +135,7 @@ struct BigMystery: Decodable {
 
 struct Epilogue: Decodable {
     let id: String
-    let title: String
+    let title: LocalizedText
     let condition: String
     let beats: [Beat]
 }
@@ -120,6 +144,7 @@ struct Epilogues: Decodable {
     let mostlyGood: Epilogue
     let mostlyBad: Epilogue
     let balanced: Epilogue
+    let trueEnding: Epilogue
 }
 
 struct ContentData: Decodable {

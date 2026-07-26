@@ -123,15 +123,15 @@ private struct ChoiceBar: View {
             switch choice {
             case .flavor(let options):
                 ForEach(options.indices, id: \.self) { i in
-                    ChoiceButton(text: options[i].text) { viewModel.chooseFlavor(options[i]) }
+                    ChoiceButton(text: options[i].text.rendered(viewModel.lang, name: viewModel.name)) { viewModel.chooseFlavor(options[i]) }
                 }
             case .midpoint(let options):
                 ForEach(options.indices, id: \.self) { i in
-                    ChoiceButton(text: options[i].text) { viewModel.chooseMidpoint(options[i]) }
+                    ChoiceButton(text: options[i].text.rendered(viewModel.lang, name: viewModel.name)) { viewModel.chooseMidpoint(options[i]) }
                 }
             case .final_(let options):
                 ForEach(options.indices, id: \.self) { i in
-                    ChoiceButton(text: options[i].text, accent: true) { viewModel.chooseFinal(options[i]) }
+                    ChoiceButton(text: options[i].text.rendered(viewModel.lang, name: viewModel.name), accent: true) { viewModel.chooseFinal(options[i]) }
                 }
             }
         }

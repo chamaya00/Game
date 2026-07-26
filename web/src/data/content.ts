@@ -1,12 +1,37 @@
 import rolesJson from "@content/roles.json";
 import tokensJson from "@content/design-tokens.json";
-import type { ContentData, DesignTokens, Gender, Orientation, Profile, Role } from "../types";
+import uiStringsJson from "@content/ui-strings.json";
+import type { ContentData, DesignTokens, Gender, Lang, LocalizedText, Orientation, Profile, Role } from "../types";
 
 export const content = rolesJson as unknown as ContentData;
 export const tokens = tokensJson as unknown as DesignTokens;
+const uiStrings = uiStringsJson as unknown as Record<string, LocalizedText>;
 
+/** Picks the string for the current language out of a {vi, en} pair. */
+export function localize(loc: LocalizedText, lang: Lang): string {
+  return loc[lang] ?? loc.vi;
+}
+
+/** Replaces the `{name}` placeholder used throughout the shared script content. */
 export function interpolate(text: string, name: string): string {
   return text.split("{name}").join(name);
+}
+
+/** localize() + interpolate() combined — the common case when rendering a beat. */
+export function renderText(loc: LocalizedText, lang: Lang, name: string): string {
+  return interpolate(localize(loc, lang), name);
+}
+
+/** Looks up a UI-chrome string (buttons, labels, dialogs) and fills in any {var} placeholders. */
+export function ui(key: keyof typeof uiStrings, lang: Lang, vars?: Record<string, string | number>): string {
+  const loc = uiStrings[key];
+  let text = localize(loc, lang);
+  if (vars) {
+    for (const [k, v] of Object.entries(vars)) {
+      text = text.split(`{${k}}`).join(String(v));
+    }
+  }
+  return text;
 }
 
 export function getRole(roleId: string): Role {

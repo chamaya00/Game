@@ -38,12 +38,30 @@ button {
 }
 
 .screen {
+  position: relative;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   max-width: 480px;
   margin: 0 auto;
   background: var(--bg-primary);
+}
+
+.lang-toggle {
+  border: 1.5px solid var(--accent-primary);
+  background: #fff;
+  color: var(--text-primary);
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  line-height: 1;
+}
+.lang-toggle-floating {
+  position: absolute;
+  top: 16px;
+  right: 16px;
 }
 
 /* Splash */
@@ -116,6 +134,12 @@ button {
   background: transparent;
   border: none;
   font-size: 20px;
+}
+
+.list-header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .epilogue-banner {

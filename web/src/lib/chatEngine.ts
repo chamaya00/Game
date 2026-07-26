@@ -1,4 +1,4 @@
-import type { Beat, Role } from "../types";
+import type { Beat, LocalizedText, Role } from "../types";
 
 export interface DisplayMessage {
   id: number;
@@ -9,9 +9,9 @@ export interface DisplayMessage {
 }
 
 export type PendingChoice =
-  | { kind: "flavor"; options: { text: string; response: string }[] }
-  | { kind: "midpoint"; prompt?: string; options: { text: string; branch: Beat[] }[] }
-  | { kind: "final"; prompt?: string; options: { text: string; leadsTo: "good" | "bad" }[] };
+  | { kind: "flavor"; options: { text: LocalizedText; response: LocalizedText }[] }
+  | { kind: "midpoint"; prompt?: LocalizedText; options: { text: LocalizedText; branch: Beat[] }[] }
+  | { kind: "final"; prompt?: LocalizedText; options: { text: LocalizedText; leadsTo: "good" | "bad" }[] };
 
 export function beatToPendingChoice(beat: Beat): PendingChoice | null {
   if (beat.type === "flavor_choice") return { kind: "flavor", options: beat.options };

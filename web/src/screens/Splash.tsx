@@ -1,13 +1,26 @@
-import { tokens } from "../data/content";
+import { tokens, ui } from "../data/content";
+import { LangToggle } from "../components/LangToggle";
+import type { Lang } from "../types";
 
-export function Splash({ onStart }: { onStart: () => void }) {
+export function Splash({
+  lang,
+  onLangChange,
+  onStart,
+}: {
+  lang: Lang;
+  onLangChange: (lang: Lang) => void;
+  onStart: () => void;
+}) {
   return (
     <div className="screen splash-screen">
+      <div className="lang-toggle-floating">
+        <LangToggle lang={lang} onChange={onLangChange} />
+      </div>
       <div className="splash-logo">💗</div>
       <h1 className="splash-title">{tokens.appName}</h1>
-      <p className="splash-tagline">Kết nối thật sự, ngay từ lần chạm đầu tiên.</p>
+      <p className="splash-tagline">{ui("splashTagline", lang)}</p>
       <button className="primary-btn" onClick={onStart}>
-        Bắt đầu
+        {ui("start", lang)}
       </button>
     </div>
   );

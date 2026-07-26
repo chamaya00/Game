@@ -1,18 +1,31 @@
-import type { Orientation } from "../types";
+import { ui } from "../data/content";
+import { LangToggle } from "../components/LangToggle";
+import type { Lang, Orientation } from "../types";
 
-export function OrientationPicker({ onChoose }: { onChoose: (o: Orientation) => void }) {
+export function OrientationPicker({
+  lang,
+  onLangChange,
+  onChoose,
+}: {
+  lang: Lang;
+  onLangChange: (lang: Lang) => void;
+  onChoose: (o: Orientation) => void;
+}) {
   return (
     <div className="screen orientation-screen">
-      <h2>Bạn muốn kết nối với...</h2>
+      <div className="lang-toggle-floating">
+        <LangToggle lang={lang} onChange={onLangChange} />
+      </div>
+      <h2>{ui("orientationHeading", lang)}</h2>
       <div className="orientation-options">
         <button className="primary-btn" onClick={() => onChoose("male")}>
-          Thích nam
+          {ui("likeMen", lang)}
         </button>
         <button className="primary-btn" onClick={() => onChoose("female")}>
-          Thích nữ
+          {ui("likeWomen", lang)}
         </button>
         <button className="primary-btn secondary" onClick={() => onChoose("both")}>
-          Cả hai
+          {ui("likeBoth", lang)}
         </button>
       </div>
     </div>

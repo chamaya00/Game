@@ -1,23 +1,29 @@
 export type Gender = "female" | "male";
 export type Orientation = "male" | "female" | "both";
+export type Lang = "vi" | "en";
+
+export interface LocalizedText {
+  vi: string;
+  en: string;
+}
 
 export interface NpcBeat {
   type: "npc";
-  text: string;
+  text: LocalizedText;
   clue?: boolean;
   effect?: "typing_long" | "message_recalled" | "glitch_subtle";
 }
 
 export interface SystemBeat {
   type: "system";
-  text: string;
+  text: LocalizedText;
 }
 
 export type DialogueBeat = NpcBeat | SystemBeat;
 
 export interface FlavorOption {
-  text: string;
-  response: string;
+  text: LocalizedText;
+  response: LocalizedText;
 }
 
 export interface FlavorChoiceBeat {
@@ -26,31 +32,31 @@ export interface FlavorChoiceBeat {
 }
 
 export interface BranchOption {
-  text: string;
+  text: LocalizedText;
   branch: DialogueBeat[];
 }
 
 export interface MidpointChoiceBeat {
   type: "midpoint_choice";
-  prompt?: string;
+  prompt?: LocalizedText;
   options: BranchOption[];
 }
 
 export interface FinalOption {
-  text: string;
+  text: LocalizedText;
   leadsTo: "good" | "bad";
 }
 
 export interface FinalChoiceBeat {
   type: "final_choice";
-  prompt?: string;
+  prompt?: LocalizedText;
   options: FinalOption[];
 }
 
 export type Beat = DialogueBeat | FlavorChoiceBeat | MidpointChoiceBeat | FinalChoiceBeat;
 
 export interface EndingBlock {
-  title: string;
+  title: LocalizedText;
   beats: DialogueBeat[];
 }
 
@@ -63,7 +69,7 @@ export interface Role {
   order: number;
   accentColor: string;
   variants: { female: RoleVariant; male: RoleVariant };
-  profileHook: string;
+  profileHook: LocalizedText;
   vibe: string;
   horrorType: string;
   mysteryRole: string;
@@ -75,7 +81,7 @@ export interface Role {
 
 export interface Epilogue {
   id: string;
-  title: string;
+  title: LocalizedText;
   condition: string;
   beats: DialogueBeat[];
 }
@@ -93,6 +99,7 @@ export interface ContentData {
     mostlyGood: Epilogue;
     mostlyBad: Epilogue;
     balanced: Epilogue;
+    trueEnding: Epilogue;
   };
 }
 
@@ -111,7 +118,7 @@ export interface Profile {
   gender: Gender;
   name: string;
   accentColor: string;
-  profileHook: string;
+  profileHook: LocalizedText;
   order: number;
 }
 
@@ -119,6 +126,7 @@ export type EndingResult = "good" | "bad";
 
 export interface SaveData {
   orientation: Orientation | null;
+  lang: Lang;
   completedEndings: Record<string, EndingResult>; // roleId -> last ending achieved
   playedGender: Record<string, Gender>; // roleId -> which variant was matched (only relevant for "both")
   epilogueSeen: boolean;

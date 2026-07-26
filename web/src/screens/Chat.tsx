@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import type { Beat, Gender, NpcBeat, Role } from "../types";
-import { interpolate, tokens } from "../data/content";
+import type { Beat, Gender, Lang, LocalizedText, NpcBeat, Role } from "../types";
+import { renderText, tokens, ui } from "../data/content";
+import { LangToggle } from "../components/LangToggle";
 import type { DisplayMessage, PendingChoice } from "../lib/chatEngine";
 import { beatToPendingChoice, initialQueue } from "../lib/chatEngine";
 
 interface ChatProps {
+  lang: Lang;
+  onLangChange: (lang: Lang) => void;
   role: Role;
   gender: Gender;
   onFinished: (result: "good" | "bad") => void;
@@ -13,7 +16,7 @@ interface ChatProps {
 
 let messageIdCounter = 0;
 
-export function Chat({ role, gender, onFinished, onBack }: ChatProps) {
+export function Chat({ lang, onLangChange, role, gender, onFinished, onBack }: ChatProps) {
   const name = role.variants[gender].name;
   const queueRef = useRef<Beat[]>(initialQueue(role));
   const [log, setLog] = useState<DisplayMessage[]>([]);
@@ -70,7 +73,7 @@ export function Chat({ role, gender, onFinished, onBack }: ChatProps) {
 
     queueRef.current = queueRef.current.slice(1);
     if (beat.type === "system") {
-      pushMessage({ speaker: "system", text: interpolate(beat.text, name) });
+      pushMessage({ speaker: "system", text: renderText(beat.text, lang, name) });
       return;
     }
     // npc dialogue beat
@@ -82,7 +85,7 @@ export function Chat({ role, gender, onFinished, onBack }: ChatProps) {
     setTyping(true);
     advanceTimer.current = window.setTimeout(() => {
       setTyping(false);
-      const text = interpolate(beat.text, name);
+      const text = renderText(beat.text, lang, name);
 
       if (beat.effect === "glitch_subtle") {
         setGlitching(true);
@@ -95,7 +98,7 @@ export function Chat({ role, gender, onFinished, onBack }: ChatProps) {
       if (beat.effect === "message_recalled") {
         window.setTimeout(() => {
           setLog((prev) =>
-            prev.map((m) => (m.id === id ? { ...m, text: "Tin nhắn đã được thu hồi.", recalled: true } : m))
+            prev.map((m) => (m.id === id ? { ...m, text: ui("messageRecalledPlaceholder", lang), recalled: true } : m))
           );
         }, tokens.animation.messageRecalledFlashMs);
       }
@@ -104,20 +107,20 @@ export function Chat({ role, gender, onFinished, onBack }: ChatProps) {
     }, delay);
   }
 
-  function handleFlavor(option: { text: string; response: string }) {
-    pushMessage({ speaker: "player", text: option.text });
+  function handleFlavor(option: { text: LocalizedText; response: LocalizedText }) {
+    pushMessage({ speaker: "player", text: renderText(option.text, lang, name) });
     queueRef.current = [{ type: "npc", text: option.response }, ...queueRef.current];
     setPendingChoice(null);
   }
 
-  function handleMidpoint(option: { text: string; branch: Beat[] }) {
-    pushMessage({ speaker: "player", text: option.text });
+  function handleMidpoint(option: { text: LocalizedText; branch: Beat[] }) {
+    pushMessage({ speaker: "player", text: renderText(option.text, lang, name) });
     queueRef.current = [...option.branch, ...queueRef.current];
     setPendingChoice(null);
   }
 
-  function handleFinal(option: { text: string; leadsTo: "good" | "bad" }) {
-    pushMessage({ speaker: "player", text: option.text });
+  function handleFinal(option: { text: LocalizedText; leadsTo: "good" | "bad" }) {
+    pushMessage({ speaker: "player", text: renderText(option.text, lang, name) });
     setPendingChoice(null);
     setDone(option.leadsTo);
     window.setTimeout(() => onFinished(option.leadsTo), 900);
@@ -126,7 +129,7 @@ export function Chat({ role, gender, onFinished, onBack }: ChatProps) {
   return (
     <div className="screen chat-screen">
       <header className="chat-header">
-        <button className="icon-btn" onClick={onBack} aria-label="Quay lại">
+        <button className="icon-btn" onClick={onBack} aria-label={ui("backAria", lang)}>
           ←
         </button>
         <div className={`chat-avatar${glitching ? " glitching" : ""}`} style={{ background: role.accentColor }}>
@@ -135,9 +138,10 @@ export function Chat({ role, gender, onFinished, onBack }: ChatProps) {
         <div className="chat-header-info">
           <div className="chat-name">{name}</div>
           <div className="online-status">
-            <span className="online-dot" /> Đang hoạt động
+            <span className="online-dot" /> {ui("onlineStatus", lang)}
           </div>
         </div>
+        <LangToggle lang={lang} onChange={onLangChange} />
       </header>
 
       <div className="chat-log">
@@ -161,19 +165,19 @@ export function Chat({ role, gender, onFinished, onBack }: ChatProps) {
           {pendingChoice.kind === "flavor" &&
             pendingChoice.options.map((o, i) => (
               <button key={i} className="choice-btn" onClick={() => handleFlavor(o)}>
-                {o.text}
+                {renderText(o.text, lang, name)}
               </button>
             ))}
           {pendingChoice.kind === "midpoint" &&
             pendingChoice.options.map((o, i) => (
               <button key={i} className="choice-btn" onClick={() => handleMidpoint(o)}>
-                {o.text}
+                {renderText(o.text, lang, name)}
               </button>
             ))}
           {pendingChoice.kind === "final" &&
             pendingChoice.options.map((o, i) => (
               <button key={i} className="choice-btn final" onClick={() => handleFinal(o)}>
-                {o.text}
+                {renderText(o.text, lang, name)}
               </button>
             ))}
         </div>

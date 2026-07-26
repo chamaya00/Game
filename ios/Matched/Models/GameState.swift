@@ -10,7 +10,7 @@ struct Profile: Identifiable {
     let gender: Gender
     let name: String
     let accentColor: String
-    let profileHook: String
+    let profileHook: LocalizedText
     let order: Int
 }
 
@@ -103,6 +103,9 @@ final class GameState: ObservableObject {
         let results = Array(save.completedEndings.values)
         let good = results.filter { $0 == .good }.count
         let bad = results.filter { $0 == .bad }.count
+        // Exactly 8/8 bad unlocks the secret "true ending" — the fullest reveal
+        // of the mystery — before falling back to the ratio-based variants.
+        if results.count == 8 && bad == 8 { return ContentLoader.content.epilogues.trueEnding }
         if good >= 6 { return ContentLoader.content.epilogues.mostlyGood }
         if bad >= 6 { return ContentLoader.content.epilogues.mostlyBad }
         return ContentLoader.content.epilogues.balanced

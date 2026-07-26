@@ -1,7 +1,10 @@
-import { buildProfileList, tokens } from "../data/content";
-import type { EndingResult, Gender, Orientation, Profile } from "../types";
+import { buildProfileList, renderText, tokens, ui } from "../data/content";
+import { LangToggle } from "../components/LangToggle";
+import type { EndingResult, Gender, Lang, Orientation, Profile } from "../types";
 
 interface MatchListProps {
+  lang: Lang;
+  onLangChange: (lang: Lang) => void;
   orientation: Orientation;
   playedGender: Record<string, Gender>;
   completedEndings: Record<string, EndingResult>;
@@ -11,6 +14,8 @@ interface MatchListProps {
 }
 
 export function MatchList({
+  lang,
+  onLangChange,
   orientation,
   playedGender,
   completedEndings,
@@ -26,18 +31,21 @@ export function MatchList({
     <div className="screen list-screen">
       <header className="list-header">
         <div className="list-logo">💗 {tokens.appName}</div>
-        <button className="icon-btn" onClick={onReset} aria-label="Cài đặt / Chơi lại từ đầu">
-          ⚙️
-        </button>
+        <div className="list-header-actions">
+          <LangToggle lang={lang} onChange={onLangChange} />
+          <button className="icon-btn" onClick={onReset} aria-label={ui("settingsAria", lang)}>
+            ⚙️
+          </button>
+        </div>
       </header>
 
       {epilogueReady && (
         <button className="epilogue-banner" onClick={onOpenEpilogue}>
-          Tất cả 8 kết nối đã hoàn thành — xem điều gì đang chờ đợi →
+          {ui("epilogueBanner", lang)}
         </button>
       )}
 
-      <div className="progress-note">{completedCount}/8 match đã hoàn thành</div>
+      <div className="progress-note">{ui("progressNote", lang, { count: completedCount })}</div>
 
       <div className="profile-grid">
         {profiles.map((p) => {
@@ -54,9 +62,9 @@ export function MatchList({
                     {ending && <span className={`ending-badge ${ending}`}>{ending === "good" ? "✓" : "◐"}</span>}
                   </span>
                 </div>
-                <div className="profile-hook">{p.profileHook}</div>
+                <div className="profile-hook">{renderText(p.profileHook, lang, p.name)}</div>
                 <div className="online-status">
-                  <span className="online-dot" /> Đang hoạt động
+                  <span className="online-dot" /> {ui("onlineStatus", lang)}
                 </div>
               </div>
             </button>
