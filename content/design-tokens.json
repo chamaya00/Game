@@ -1,0 +1,41 @@
+{
+  "appName": "Meet&Date",
+  "colors": {
+    "bgPrimary": "#FFF6EF",
+    "bgCard": "#FFFFFF",
+    "accentPrimary": "#FF9EB5",
+    "accentSecondary": "#FFD59E",
+    "bubbleNpc": "#F1ECFF",
+    "bubblePlayer": "#FFE3EA",
+    "textPrimary": "#4A3B3B",
+    "textMuted": "#A99B96",
+    "signalQuiet": "#FFFFFF",
+    "onlineDot": "#7ED9A6"
+  },
+  "radius": {
+    "sm": 12,
+    "md": 16,
+    "lg": 24
+  },
+  "fonts": {
+    "display": "'Baloo 2', 'Quicksand', sans-serif",
+    "body": "'Quicksand', 'Nunito', sans-serif",
+    "meta": "'Quicksand', 'Nunito', sans-serif"
+  },
+  "animation": {
+    "typingDefaultMs": 1000,
+    "typingLongMs": 2800,
+    "messageRecalledFlashMs": 400,
+    "glitchSubtleMs": 90
+  },
+  "roleAccents": {
+    "role_01_control": "#E6B8D4",
+    "role_02_obsession": "#F0D48A",
+    "role_03_isolation": "#B8E0D2",
+    "role_04_reality": "#C9B8E0",
+    "role_05_mask": "#F5B8A0",
+    "role_06_trust": "#A8C4D4",
+    "role_07_surrogate": "#D4A8D8",
+    "role_08_witness": "#E8DCC0"
+  }
+}
