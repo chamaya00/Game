@@ -23,9 +23,18 @@ export function loadSave(): SaveData {
 }
 
 export function writeSave(save: SaveData): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+  } catch {
+    // localStorage can be unavailable (privacy mode, sandboxed iframe, storage
+    // partitioning). Progress just won't persist across reloads in that case.
+  }
 }
 
 export function resetSave(): void {
-  localStorage.removeItem(STORAGE_KEY);
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // see writeSave
+  }
 }
