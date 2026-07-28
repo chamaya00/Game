@@ -96,6 +96,34 @@ export function playGlitch() {
   tone(1200, t + 0.02, 0.03, 0.02, "square", ac, sfxGain);
 }
 
+/** A breathy, formant-swept whisper — used under silences in Round 2 (hesitate beats). */
+export function playWhisper() {
+  const ac = ensureCtx();
+  if (!ac || !sfxGain) return;
+  const t = ac.currentTime;
+  const bufferSize = Math.floor(ac.sampleRate * 1.2);
+  const buffer = ac.createBuffer(1, bufferSize, ac.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < bufferSize; i++) data[i] = (Math.random() * 2 - 1) * 0.5;
+  const noise = ac.createBufferSource();
+  noise.buffer = buffer;
+  const filter = ac.createBiquadFilter();
+  filter.type = "bandpass";
+  filter.frequency.setValueAtTime(500, t);
+  filter.frequency.linearRampToValueAtTime(1400, t + 0.6);
+  filter.frequency.linearRampToValueAtTime(700, t + 1.1);
+  filter.Q.value = 1.2;
+  const gain = ac.createGain();
+  gain.gain.setValueAtTime(0, t);
+  gain.gain.linearRampToValueAtTime(0.03, t + 0.25);
+  gain.gain.linearRampToValueAtTime(0, t + 1.1);
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(sfxGain);
+  noise.start(t);
+  noise.stop(t + 1.2);
+}
+
 /** A low, uneasy tone for a bad-ending / ghi_chu.txt reveal. */
 export function playDread() {
   const ac = ensureCtx();

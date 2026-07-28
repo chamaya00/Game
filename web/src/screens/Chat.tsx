@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import type { Beat, Character, ChoiceOption, InputMode, Lang } from "../types";
 import { getInputMode, renderText, sharedLine, tokens, ui } from "../data/content";
-import { resolveHistory, type ReplayMessage } from "../lib/historyReplay";
-import { playGlitch, playReceive, playSend, playTap } from "../lib/sound";
+import { resolveHistory, resolveHistoryWithReveal, type ReplayMessage } from "../lib/historyReplay";
+import { playGlitch, playReceive, playSend, playTap, playWhisper } from "../lib/sound";
 import { LangToggle } from "../components/LangToggle";
 import { CharacterAvatar } from "../components/CharacterAvatar";
 
@@ -69,14 +69,45 @@ export function Chat({
   const vars = { handle: character.handle, playerName };
   const inBadEndingRef = useRef(false);
   const queueRef = useRef<Beat[]>(mode === "round1" ? [...character.round1] : [...character.round2]);
-  const [historyLog] = useState<ReplayMessage[]>(() => {
+  // The suppressed phantom-tapped line from Round 1, if any, and where it
+  // sits in the history log — filled in below so it can "rewrite itself"
+  // live in front of the player instead of loading in already-corrupted.
+  const corruptionRef = useRef<{ index: number; text: string } | null>(null);
+  const [historyLog, setHistoryLog] = useState<ReplayMessage[]>(() => {
     if (mode === "round1") return [];
-    const r1 = resolveHistory(character.round1, lang, vars, historyCorrupted);
+    let r1: ReplayMessage[];
+    if (historyCorrupted) {
+      const reveal = resolveHistoryWithReveal(character.round1, lang, vars);
+      r1 = reveal.messages;
+      if (reveal.index !== null && reveal.revealedText !== null) {
+        corruptionRef.current = { index: reveal.index, text: reveal.revealedText };
+      }
+    } else {
+      r1 = resolveHistory(character.round1, lang, vars, false);
+    }
     if (mode === "round2") return r1;
-    const r2 = resolveHistory(character.round2, lang, vars, historyCorrupted);
-    const bad = resolveHistory(character.badEnding.beats, lang, vars, historyCorrupted);
+    const r2 = resolveHistory(character.round2, lang, vars, false);
+    const bad = resolveHistory(character.badEnding.beats, lang, vars, false);
     return [...r1, ...r2, ...bad];
   });
+  const [corruptFlashIndex, setCorruptFlashIndex] = useState<number | null>(null);
+
+  useEffect(() => {
+    if (!corruptionRef.current) return;
+    const { index, text } = corruptionRef.current;
+    const delay = 1800 + Math.random() * 1400;
+    const t1 = window.setTimeout(() => {
+      setCorruptFlashIndex(index);
+      playGlitch();
+      const t2 = window.setTimeout(() => {
+        setHistoryLog((prev) => prev.map((m, i) => (i === index ? { ...m, text } : m)));
+        window.setTimeout(() => setCorruptFlashIndex(null), 260);
+      }, 130);
+      return () => window.clearTimeout(t2);
+    }, delay);
+    return () => window.clearTimeout(t1);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [log, setLog] = useState<DisplayMessage[]>([]);
   const [typing, setTyping] = useState(false);
   const [pendingChoice, setPendingChoice] = useState<PendingChoice | null>(null);
@@ -87,12 +118,53 @@ export function Chat({
   const logEndRef = useRef<HTMLDivElement>(null);
   const timerRef = useRef<number | null>(null);
   const msgIndexRef = useRef(0);
+  const [screenGlitching, setScreenGlitching] = useState(false);
+  const [ghostTyping, setGhostTyping] = useState(false);
 
   useEffect(() => {
     return () => {
       if (timerRef.current) window.clearTimeout(timerRef.current);
     };
   }, []);
+
+  // Ambient dread for Round 2: the whole screen briefly glitches at random,
+  // more often the further along the chapters the player is (GDD section 9's
+  // escalation-by-order). Purely cosmetic — never touches the beat queue.
+  useEffect(() => {
+    if (mode !== "round2") return;
+    let cancelled = false;
+    const minGap = Math.max(4000, 16000 - character.order * 2200);
+    const maxGap = minGap + 12000;
+    function scheduleGlitch() {
+      const delay = minGap + Math.random() * (maxGap - minGap);
+      const t = window.setTimeout(() => {
+        if (cancelled) return;
+        setScreenGlitching(true);
+        window.setTimeout(() => setScreenGlitching(false), 180);
+        scheduleGlitch();
+      }, delay);
+      return t;
+    }
+    const id = scheduleGlitch();
+    return () => {
+      cancelled = true;
+      window.clearTimeout(id);
+    };
+  }, [mode, character.order]);
+
+  // A false alarm: the typing dots appear while the player is waiting on a
+  // reply, then vanish with nothing sent — only ever during Round 2, and
+  // only while there's actually a pending choice (so it can't collide with
+  // the real npc-typing indicator driven by the beat queue).
+  useEffect(() => {
+    if (mode !== "round2" || !pendingChoice) return;
+    const delay = 3000 + Math.random() * 6000;
+    const t = window.setTimeout(() => {
+      setGhostTyping(true);
+      window.setTimeout(() => setGhostTyping(false), 1400 + Math.random() * 1200);
+    }, delay);
+    return () => window.clearTimeout(t);
+  }, [mode, pendingChoice]);
 
   useEffect(() => {
     logEndRef.current?.scrollIntoView({ behavior: "auto", block: "end" });
@@ -156,6 +228,7 @@ export function Chat({
     if (beat.type === "hesitate") {
       queueRef.current = queueRef.current.slice(1);
       setTyping(true);
+      if (mode === "round2") playWhisper();
       timerRef.current = window.setTimeout(() => {
         setTyping(false);
         processNext();
@@ -272,7 +345,7 @@ export function Chat({
   const isRound2Palette = mode === "round2" || mode === "revisit";
 
   return (
-    <div className={`screen chat-screen${isRound2Palette ? " round2" : ""}`}>
+    <div className={`screen chat-screen${isRound2Palette ? " round2" : ""}${screenGlitching ? " screen-glitching" : ""}`}>
       <header className="chat-header">
         <button className="icon-btn" onClick={onBack} aria-label={ui("chat.back.aria", lang)}>
           ←
@@ -289,13 +362,15 @@ export function Chat({
 
       <div className={`chat-log${mode === "revisit" ? " history-readonly" : ""}`}>
         {mode !== "round1" &&
-          historyLog.map((m) => <ReplayBubble key={m.id} message={m} lang={lang} />)}
+          historyLog.map((m, i) => (
+            <ReplayBubble key={m.id} message={m} lang={lang} glitching={i === corruptFlashIndex} />
+          ))}
         {showHistoryDivider && <div className="round-divider">{ui("chat.matched", lang, { handle: character.handle })}</div>}
 
         {log.map((m) => (
           <MessageBubble key={m.id} message={m} />
         ))}
-        {typing && (
+        {(typing || ghostTyping) && (
           <div className="typing-bubble">
             <span className="dot" />
             <span className="dot" />
@@ -392,7 +467,7 @@ function MessageBubble({ message }: { message: DisplayMessage }) {
   );
 }
 
-function ReplayBubble({ message, lang }: { message: ReplayMessage; lang: Lang }) {
+function ReplayBubble({ message, lang, glitching }: { message: ReplayMessage; lang: Lang; glitching?: boolean }) {
   if (message.speaker === "system") {
     if (message.text.startsWith("n:")) {
       const [, n, unit] = message.text.split(":");
@@ -403,7 +478,7 @@ function ReplayBubble({ message, lang }: { message: ReplayMessage; lang: Lang })
   const isPlayer = message.speaker === "player";
   return (
     <div className={`bubble-row ${isPlayer ? "player" : "npc"}`}>
-      <div className={`bubble ${isPlayer ? "player" : "npc"}`}>{message.text}</div>
+      <div className={`bubble ${isPlayer ? "player" : "npc"}${glitching ? " history-glitch" : ""}`}>{message.text}</div>
     </div>
   );
 }
