@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import type { Beat, Character, ChoiceOption, InputMode, Lang } from "../types";
 import { getInputMode, renderText, sharedLine, tokens, ui } from "../data/content";
 import { resolveHistory, type ReplayMessage } from "../lib/historyReplay";
+import { playGlitch, playReceive, playSend, playTap } from "../lib/sound";
 import { LangToggle } from "../components/LangToggle";
 import { CharacterAvatar } from "../components/CharacterAvatar";
 
@@ -183,11 +184,13 @@ export function Chat({
     timerRef.current = window.setTimeout(() => {
       setTyping(false);
       pushMessage({ speaker: "npc", text: renderText(beat.text, lang, vars) });
+      playReceive();
     }, delay);
   }
 
   function sendPlayerText(text: string) {
     pushMessage({ speaker: "player", text });
+    playSend();
     setPendingChoice(null);
     setDraft("");
   }
@@ -204,10 +207,12 @@ export function Chat({
     if (resolvingRef.current) return;
     if (!option.isPhantom || option.swapToIndex === undefined) {
       resolvingRef.current = true;
+      playTap();
       sendPlayerText(renderText(option.text, lang, vars));
       return;
     }
     resolvingRef.current = true;
+    playGlitch();
     // phantom-swap: the tapped line flickers and is silently replaced (~150ms)
     setPhantomFlash({ index, label: renderText(option.text, lang, vars) });
     const options = (pendingChoice as { kind: "choice"; options: ChoiceOption[] }).options;
@@ -225,6 +230,7 @@ export function Chat({
     if (resolvingRef.current) return;
     if (!pendingChoice || pendingChoice.kind !== "forced") return;
     resolvingRef.current = true;
+    playTap();
     sendPlayerText(pendingChoice.text);
   }
 

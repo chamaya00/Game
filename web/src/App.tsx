@@ -11,6 +11,7 @@ import { Settings } from "./screens/Settings";
 import { getCharacter } from "./data/content";
 import { loadSave, resetSave, writeSave } from "./lib/storage";
 import { getChapterState, round1CompletedCount, round2CompletedCount } from "./lib/progress";
+import { setSoundEnabled } from "./lib/sound";
 import type { Lang, SaveData } from "./types";
 
 type Screen = "splash" | "onboarding" | "warning" | "list" | "chat" | "theend" | "profileflash" | "trueending" | "settings";
@@ -33,6 +34,10 @@ export default function App() {
     writeSave(save);
   }, [save]);
 
+  useEffect(() => {
+    setSoundEnabled(save.soundOn);
+  }, [save.soundOn]);
+
   // Once all 5 chapters have finished Round 1 (checked here, not just right
   // after the 5th one completes, so a reload mid-way still recovers into
   // the THE END transition instead of leaving the list stuck).
@@ -44,6 +49,10 @@ export default function App() {
 
   function handleLangChange(newLang: Lang) {
     setSave((s) => ({ ...s, lang: newLang }));
+  }
+
+  function handleSoundChange(on: boolean) {
+    setSave((s) => ({ ...s, soundOn: on }));
   }
 
   function handleSelect(characterId: string) {
@@ -175,7 +184,14 @@ export default function App() {
       {screen === "trueending" && <TrueEnding lang={lang} onFinished={handleTrueEndingFinished} />}
 
       {screen === "settings" && (
-        <Settings lang={lang} onLangChange={handleLangChange} onBack={() => setScreen("list")} onReset={handleReset} />
+        <Settings
+          lang={lang}
+          onLangChange={handleLangChange}
+          onBack={() => setScreen("list")}
+          onReset={handleReset}
+          soundOn={save.soundOn}
+          onSoundChange={handleSoundChange}
+        />
       )}
     </>
   );

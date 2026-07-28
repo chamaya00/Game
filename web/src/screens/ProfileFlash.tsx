@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { localize, ui } from "../data/content";
+import { playDread } from "../lib/sound";
 import type { Character, Lang } from "../types";
 
 /**
@@ -14,6 +15,7 @@ export function ProfileFlash({ character, lang, onDone }: { character: Character
   const duration = flash.durationMs < 0 ? 3400 : flash.durationMs;
 
   useEffect(() => {
+    playDread();
     const t = window.setTimeout(onDone, duration);
     return () => window.clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -58,15 +58,18 @@ button {
 
 /* Round 2 palette — same hues, desaturated + darkened, per GDD 7.2 "round-shift" */
 .round2 {
-  --bg: #0b0f0e;
-  --surface: #141a19;
-  --surface-alt: #171f1e;
-  --brand: #0e3a34;
-  --brand-ink: #5e706c;
-  --ink: #a8b5b2;
-  --ink-muted: #4a5654;
-  --divider: #1e2a28;
+  --bg: #0a0d10;
+  --surface: #12171a;
+  --surface-alt: #151c1f;
+  --brand: #0c332e;
+  --brand-ink: #7a8a87;
+  --ink: #9fb0ac;
+  --ink-muted: #465250;
+  --divider: #1b2523;
   /* --accent and --online deliberately stay the same across rounds (7.2, 7.7) */
+}
+.round2.screen {
+  background: radial-gradient(ellipse at 50% -10%, #10201d 0%, var(--bg) 60%);
 }
 
 .lang-toggle {
@@ -284,6 +287,8 @@ button {
   padding: 16px;
   background: var(--surface);
   border-bottom: 1px solid var(--divider);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+  z-index: 2;
 }
 .chat-header-info {
   flex: 1;
@@ -355,6 +360,7 @@ button {
   border-radius: var(--r-bubble);
   font-size: 16px;
   line-height: 1.45;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
 }
 .bubble.npc {
   background: var(--surface-alt);
@@ -363,6 +369,10 @@ button {
 .bubble.player {
   background: var(--brand);
   color: var(--brand-ink);
+  box-shadow: 0 2px 8px rgba(0, 194, 168, 0.18);
+}
+.round2 .bubble.player {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
 }
 .bubble-meta {
   font-size: 11px;
@@ -427,6 +437,7 @@ button {
   padding: 12px 18px;
   font-size: 15px;
   text-align: left;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
   transition: background-color 120ms ease-out, transform 120ms ease-out, opacity 60ms linear;
 }
 .choice-btn:active {

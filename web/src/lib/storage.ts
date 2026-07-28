@@ -11,6 +11,7 @@ function emptySave(): SaveData {
     progress: {},
     phantomTapped: {},
     seenAt: {},
+    soundOn: true,
   };
 }
 

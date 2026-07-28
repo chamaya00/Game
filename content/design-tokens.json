@@ -14,16 +14,16 @@
     "divider": "#DDEEEA"
   },
   "colorsRound2": {
-    "bg": "#0B0F0E",
-    "surface": "#141A19",
-    "surfaceAlt": "#171F1E",
-    "brand": "#0E3A34",
-    "brandInk": "#5E706C",
+    "bg": "#0A0D10",
+    "surface": "#12171A",
+    "surfaceAlt": "#151C1F",
+    "brand": "#0C332E",
+    "brandInk": "#7A8A87",
     "accent": "#FFC94A",
-    "ink": "#A8B5B2",
-    "inkMuted": "#4A5654",
+    "ink": "#9FB0AC",
+    "inkMuted": "#465250",
     "online": "#3DDC84",
-    "divider": "#1E2A28"
+    "divider": "#1B2523"
   },
   "radius": {
     "bubble": 20,

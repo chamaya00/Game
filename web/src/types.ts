@@ -109,6 +109,7 @@ export interface SaveData {
   phantomTapped: Record<string, boolean>; // characterId -> whether any phantom option was ever tapped
   seenAt: Record<string, number>; // characterId -> epoch ms after which the last message backdates to "Seen"
   trueEndingChoice?: "loop" | "stopped";
+  soundOn: boolean;
 }
 
 export interface Profile {

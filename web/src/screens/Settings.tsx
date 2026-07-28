@@ -7,11 +7,15 @@ export function Settings({
   onLangChange,
   onBack,
   onReset,
+  soundOn,
+  onSoundChange,
 }: {
   lang: Lang;
   onLangChange: (lang: Lang) => void;
   onBack: () => void;
   onReset: () => void;
+  soundOn: boolean;
+  onSoundChange: (on: boolean) => void;
 }) {
   return (
     <div className="screen settings-sheet">
@@ -30,6 +34,13 @@ export function Settings({
       </div>
       <div className="progress-note" style={{ padding: "0 0 8px" }}>
         {ui("set.lang_note", lang)}
+      </div>
+
+      <div className="settings-row">
+        <span>{ui("set.sound", lang)}</span>
+        <button className="lang-toggle" onClick={() => onSoundChange(!soundOn)}>
+          {soundOn ? ui("set.sound_on", lang) : ui("set.sound_off", lang)}
+        </button>
       </div>
 
       <button className="danger-btn" onClick={onReset}>

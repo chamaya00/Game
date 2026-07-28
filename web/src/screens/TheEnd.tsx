@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { ui } from "../data/content";
+import { playTheEnd } from "../lib/sound";
 import type { Lang } from "../types";
 
 export function TheEnd({ lang, onContinue }: { lang: Lang; onContinue: () => void }) {
   const [showWrong, setShowWrong] = useState(false);
 
   useEffect(() => {
+    playTheEnd();
     const t = window.setTimeout(() => setShowWrong(true), 2200);
     return () => window.clearTimeout(t);
   }, []);
