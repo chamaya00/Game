@@ -19,7 +19,7 @@ export interface ChoiceOption {
 
 // A single unified beat type used by both Round 1 and Round 2 sequences.
 export type Beat =
-  | { type: "npc"; text: LocalizedText; effect?: "typing_long" }
+  | { type: "npc"; text: LocalizedText; effect?: "typing_long" | "glitch" }
   | { type: "system"; text: LocalizedText }
   | { type: "time_skip"; n: number; unit: TimeUnit }
   | { type: "choice"; options: ChoiceOption[] }

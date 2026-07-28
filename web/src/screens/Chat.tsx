@@ -257,7 +257,16 @@ export function Chat({
     timerRef.current = window.setTimeout(() => {
       setTyping(false);
       pushMessage({ speaker: "npc", text: renderText(beat.text, lang, vars) });
-      playReceive();
+      if (beat.effect === "glitch") {
+        // The screen itself flinches exactly when a line reveals that
+        // something said only to "you" has leaked out — the glitch should
+        // land on the moment, not just decorate the room around it.
+        playGlitch();
+        setScreenGlitching(true);
+        window.setTimeout(() => setScreenGlitching(false), 220);
+      } else {
+        playReceive();
+      }
     }, delay);
   }
 
