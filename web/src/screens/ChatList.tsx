@@ -47,7 +47,9 @@ export function ChatList({
       <div className="chat-list-rows">
         {characters.map((c) => {
           const state = getChapterState(save, c.id);
-          const locked = state === "locked";
+          // "round1_done" has nothing to do yet either — it's just waiting
+          // on the other chapters before THE END unlocks Round 2 for it.
+          const locked = state === "locked" || state === "round1_done";
           const previewKey =
             state === "locked"
               ? "list.preview.locked"
