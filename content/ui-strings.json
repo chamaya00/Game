@@ -1,41 +1,51 @@
 {
-  "splashTagline": {
-    "vi": "Kết nối thật sự, ngay từ lần chạm đầu tiên.",
-    "en": "A real connection, from the very first tap."
+  "app.name": { "vi": "Meet & Greet", "en": "Meet & Greet" },
+  "app.tagline": { "vi": "Nói chuyện với người lạ, thật lòng.", "en": "Talk to strangers. For real." },
+  "onboard.name_q": { "vi": "Cậu muốn mọi người gọi cậu là gì?", "en": "What should people call you?" },
+  "onboard.name_ph": { "vi": "Nhập tên hiển thị", "en": "Enter a display name" },
+  "onboard.cta": { "vi": "Bắt đầu", "en": "Get started" },
+  "warn.title": { "vi": "Trước khi bắt đầu", "en": "Before you start" },
+  "warn.body": {
+    "vi": "Trò chơi này có nội dung về bắt nạt trên mạng, thao túng tâm lý và mất mát. Cậu có thể dừng lại bất cứ lúc nào.",
+    "en": "This game deals with online harassment, psychological manipulation, and loss. You can stop at any time."
   },
-  "start": { "vi": "Bắt đầu", "en": "Start" },
-  "orientationHeading": {
-    "vi": "Bạn muốn kết nối với...",
-    "en": "Who do you want to connect with..."
-  },
-  "likeMen": { "vi": "Thích nam", "en": "Interested in men" },
-  "likeWomen": { "vi": "Thích nữ", "en": "Interested in women" },
-  "likeBoth": { "vi": "Cả hai", "en": "Both" },
-  "epilogueBanner": {
-    "vi": "Tất cả 8 kết nối đã hoàn thành — xem điều gì đang chờ đợi →",
-    "en": "All 8 connections complete — see what's waiting →"
-  },
-  "progressNote": {
-    "vi": "{count}/8 match đã hoàn thành",
-    "en": "{count}/8 matches completed"
-  },
-  "resetConfirm": {
-    "vi": "Chơi lại từ đầu? Toàn bộ tiến trình hiện tại sẽ mất.",
-    "en": "Start over? All current progress will be lost."
-  },
-  "backAria": { "vi": "Quay lại", "en": "Back" },
-  "settingsAria": { "vi": "Cài đặt / Chơi lại từ đầu", "en": "Settings / Restart" },
-  "onlineStatus": { "vi": "Đang hoạt động", "en": "Active now" },
-  "goodEndingLabel": { "vi": "KẾT THÚC TỐT", "en": "GOOD ENDING" },
-  "badEndingLabel": { "vi": "KẾT THÚC XẤU", "en": "BAD ENDING" },
-  "backToList": { "vi": "Quay lại danh sách", "en": "Back to list" },
-  "epilogueTally": {
-    "vi": "{good} tốt · {bad} xấu",
-    "en": "{good} good · {bad} bad"
-  },
-  "langToggleAria": { "vi": "Đổi ngôn ngữ", "en": "Switch language" },
-  "messageRecalledPlaceholder": {
-    "vi": "Tin nhắn đã được thu hồi.",
-    "en": "This message was recalled."
-  }
+  "warn.cta": { "vi": "Mình hiểu", "en": "I understand" },
+  "list.title": { "vi": "Tin nhắn", "en": "Messages" },
+  "list.progress": { "vi": "{count}/5 người đã nói chuyện xong", "en": "{count}/5 conversations finished" },
+  "list.trueEndingBanner": { "vi": "Đã xong cả 5 người — có điều gì đó đang chờ →", "en": "All 5 are done — something is waiting →" },
+  "list.preview.new": { "vi": "Ghép mới — bắt đầu trò chuyện", "en": "New match — start chatting" },
+  "list.preview.continue": { "vi": "Có tin nhắn mới…", "en": "New message…" },
+  "list.preview.waiting": { "vi": "Đang chờ những người khác", "en": "Waiting on the others" },
+  "list.preview.locked": { "vi": "···", "en": "···" },
+  "status.online": { "vi": "Đang hoạt động", "en": "Active now" },
+  "status.typing": { "vi": "đang nhập…", "en": "typing…" },
+  "chat.sent": { "vi": "Đã gửi", "en": "Sent" },
+  "chat.seen": { "vi": "Đã xem", "en": "Seen" },
+  "chat.matched": { "vi": "Bạn đã được ghép với {handle}", "en": "You've been matched with {handle}" },
+  "chat.ended": { "vi": "Cuộc trò chuyện đã kết thúc.", "en": "This conversation has ended." },
+  "chat.locked": { "vi": "Cậu không thể trả lời cuộc trò chuyện này.", "en": "You can't reply to this conversation." },
+  "chat.no_reply": { "vi": "Không nhắn gì", "en": "Say nothing" },
+  "chat.leave": { "vi": "Rời khỏi cuộc trò chuyện", "en": "Leave conversation" },
+  "chat.back.aria": { "vi": "Quay lại", "en": "Back" },
+  "chat.send": { "vi": "Gửi", "en": "Send" },
+  "time.later_d": { "vi": "── {n} ngày sau ──", "en": "── {n} days later ──" },
+  "time.later_w": { "vi": "── {n} tuần sau ──", "en": "── {n} weeks later ──" },
+  "time.later_m": { "vi": "── {n} tháng sau ──", "en": "── {n} months later ──" },
+  "time.no_new": { "vi": "Không có tin nhắn mới.", "en": "No new messages." },
+  "acct.inactive": { "vi": "Tài khoản {handle} đã ngừng hoạt động.", "en": "The account {handle} is no longer active." },
+  "acct.gone": { "vi": "Tài khoản {handle} không còn tồn tại.", "en": "The account {handle} no longer exists." },
+  "acct.saved": { "vi": "Đoạn hội thoại vẫn được lưu.", "en": "The conversation is still saved." },
+  "end.the_end": { "vi": "THE END", "en": "THE END" },
+  "end.wrong": { "vi": "something felt wrong…", "en": "something felt wrong…" },
+  "end.continue": { "vi": "Tiếp tục", "en": "Continue" },
+  "set.title": { "vi": "Cài đặt", "en": "Settings" },
+  "set.lang": { "vi": "Ngôn ngữ", "en": "Language" },
+  "set.lang_note": { "vi": "Đổi ngôn ngữ sẽ áp dụng từ cuộc trò chuyện tiếp theo.", "en": "Language changes apply from your next conversation." },
+  "set.reset": { "vi": "Chơi lại từ đầu", "en": "Start over" },
+  "set.reset_confirm": { "vi": "Chơi lại từ đầu? Toàn bộ tiến trình hiện tại sẽ mất.", "en": "Start over? All current progress will be lost." },
+  "set.reset_cancel": { "vi": "Huỷ", "en": "Cancel" },
+  "set.aria": { "vi": "Cài đặt", "en": "Settings" },
+  "note.filename": { "vi": "ghi_chu.txt", "en": "ghi_chu.txt" },
+  "note.done": { "vi": "xong", "en": "done" },
+  "langToggleAria": { "vi": "Đổi ngôn ngữ", "en": "Switch language" }
 }

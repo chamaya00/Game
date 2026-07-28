@@ -1,0 +1,72 @@
+{
+  "sharedLines": {
+    "the_line": {
+      "vi": "Chuyện trên mạng thôi mà. Tắt máy đi là hết.",
+      "en": "It's just the internet. Turn it off and it goes away."
+    },
+    "the_question": {
+      "vi": "Nếu cậu nói cậu không ổn, ở nhà có ai hỏi lại không?",
+      "en": "If you told them you weren't okay, would anyone at home ask twice?"
+    }
+  },
+  "trueEnding": {
+    "filePrefix": [
+      "linh.h", "tuan90", "mncc", "quyen", "bao.trn", "hthu_", "ngan.b", "vinhh",
+      "trang_nt", "phuc.le", "anh2001", "kimchi.vy", "duy_pham", "thaoo.n",
+      "minhkhoa_", "hoaimy", "tam.dv", "lananh_"
+    ],
+    "finalEntry": {
+      "label": { "vi": "[không có tên]", "en": "[no name]" },
+      "dateLabel": "12/2021",
+      "lines": [
+        { "vi": "2 nghìn cmt trong 3 ngày.", "en": "2k comments in 3 days." },
+        { "vi": "ko ai ở nhà hỏi gì.", "en": "no one at home asked." }
+      ]
+    },
+    "scene2Lines": [
+      { "vi": "Mình quay cái video đó năm 18 tuổi.", "en": "I made that video when I was 18." },
+      { "vi": "Ba ngày. Hai nghìn bình luận.", "en": "Three days. Two thousand comments." },
+      { "vi": "Về mặt mình. Về giọng mình. Về cách mình nói.", "en": "About my face. About my voice. About how I talk." },
+      { "vi": "Ở nhà không ai biết.", "en": "No one at home knew." },
+      { "vi": "Không phải mình giấu. Là không ai hỏi.", "en": "Not because I hid it. Because no one asked." },
+      { "vi": "Mình có nói một lần.", "en": "I said it once." },
+      { "vi": "Mình nói con không ổn.", "en": "I said I'm not okay." },
+      { "vi": "Chuyện trên mạng thôi mà. Tắt máy đi là hết.", "en": "It's just the internet. Turn it off and it goes away." },
+      { "vi": "Mình tắt máy.", "en": "I turned it off." },
+      { "vi": "Không hết.", "en": "It didn't go away." },
+      { "vi": "Nên mình phải cho nó xảy ra ở chỗ nào đó mình nhìn thấy được.", "en": "So I had to make it happen somewhere I could watch." },
+      { "vi": "Để biết mình không bịa.", "en": "To know I didn't make it up." }
+    ],
+    "scene3NpcLines": [
+      { "vi": "chào cậu", "en": "hi" },
+      { "vi": "xin lỗi nếu làm phiền", "en": "sry if im bothering u" },
+      { "vi": "mình mới bị mấy người trên mạng nói này nói kia", "en": "some people online have been saying stuff about me" },
+      { "vi": "mình kể ở nhà mà không ai nói gì hết", "en": "i told my family and no one said anything" },
+      { "vi": "mình không biết nhắn cho ai nữa", "en": "i dont know who else to message" }
+    ],
+    "scene3Choices": [
+      { "sharedKey": "the_line", "endingId": "loop" },
+      { "text": { "vi": "Kể mình nghe đi.", "en": "Tell me." }, "endingId": "stopped" }
+    ],
+    "scene3Endings": {
+      "loop": [
+        { "type": "npc", "text": { "vi": "...", "en": "..." } },
+        { "type": "npc", "text": { "vi": "ừ", "en": "yeah" } },
+        { "type": "npc", "text": { "vi": "cậu nói đúng", "en": "you're right" } },
+        { "type": "npc", "text": { "vi": "xin lỗi đã làm phiền", "en": "sorry for bothering you" } },
+        { "type": "system", "text": { "vi": "(Người đó rời khỏi cuộc trò chuyện.)", "en": "(They leave the conversation.)" } },
+        { "type": "system", "text": { "vi": "(Màn hình hồ sơ mở ra. Một dòng mới tự thêm vào cuối, đang gõ dở.)", "en": "(The profile file opens. A new line adds itself at the end, mid-type.)" } },
+        { "type": "system", "text": { "vi": "(Màu giao diện sáng dần về đúng bảng màu vòng 1. Nhạc vui tươi vào lại.)", "en": "(The interface color brightens back to the Round 1 palette. Cheerful music returns.)" } }
+      ],
+      "stopped": [
+        { "type": "npc", "text": { "vi": "thật hả", "en": "really" } },
+        { "type": "npc", "text": { "vi": "cậu không thấy mình làm quá à", "en": "you dont think im overreacting" } },
+        { "type": "hesitate", "seconds": 4 },
+        { "type": "system", "text": { "vi": "(Không có tin nhắn nào được gửi.)", "en": "(No message was sent.)" } },
+        { "type": "system", "text": { "vi": "(Im lặng 5 giây.)", "en": "(5 seconds of silence.)" } },
+        { "type": "npc", "text": { "vi": "cậu còn đó không", "en": "are you still there" } },
+        { "type": "system", "text": { "vi": "(Ô soạn tin vẫn mở. Con trỏ nhấp nháy. Nhạc tắt hoàn toàn. Màn hình đứng yên.)", "en": "(The text box stays open. The cursor blinks. The music cuts out completely. The screen stays still.)" } }
+      ]
+    }
+  }
+}

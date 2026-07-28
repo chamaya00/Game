@@ -1,7 +1,19 @@
-# iOS scaffold (SwiftUI) — unverified
+# iOS scaffold (SwiftUI) — unverified, and now stale
 
-This directory contains a SwiftUI source scaffold for the iOS build described
-in the GDD (section 8.1). **It has not been compiled or run** — this
+> **This scaffold implements "MATCHED"**, an earlier, different game concept
+> (8 dating-sim characters, gender variants, good/bad endings by choice).
+> The project has since pivoted to **"Meet & Greet"** — 5 fixed characters,
+> a two-round "phantom option" mechanic, and a True Ending — which is what
+> `web/` now implements. **This Swift code does not reflect that game.**
+> It's kept here as a reference for the SwiftUI project-structure pattern
+> (content loading, a Codable bilingual schema, a beat-based chat engine)
+> but would need a full content/logic rewrite to match `content/characters.json`
+> and `content/mystery.json` before it's useful for Meet & Greet. Rebuilding
+> it wasn't attempted alongside the web rewrite given the scope of both
+> changes together.
+
+This directory contains a SwiftUI source scaffold for the *original* iOS
+build described in an earlier GDD. **It has not been compiled or run** — this
 environment is Linux with no Xcode/macOS toolchain available, so there was no
 way to verify the Swift code builds. Treat it as a structured starting point,
 not a finished, tested app (unlike `web/`, which is fully working and was

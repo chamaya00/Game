@@ -1,41 +1,51 @@
 {
-  "appName": "Meet&Date",
-  "colors": {
-    "bgPrimary": "#FFF6EF",
-    "bgCard": "#FFFFFF",
-    "accentPrimary": "#FF9EB5",
-    "accentSecondary": "#FFD59E",
-    "bubbleNpc": "#F1ECFF",
-    "bubblePlayer": "#FFE3EA",
-    "textPrimary": "#4A3B3B",
-    "textMuted": "#A99B96",
-    "signalQuiet": "#FFFFFF",
-    "onlineDot": "#7ED9A6"
+  "appName": "Meet & Greet",
+  "mascotName": "Cún",
+  "colorsRound1": {
+    "bg": "#F2FBF9",
+    "surface": "#FFFFFF",
+    "surfaceAlt": "#EAF6F4",
+    "brand": "#00C2A8",
+    "brandInk": "#FFFFFF",
+    "accent": "#FFC94A",
+    "ink": "#1F2E2B",
+    "inkMuted": "#7E948F",
+    "online": "#3DDC84",
+    "divider": "#DDEEEA"
+  },
+  "colorsRound2": {
+    "bg": "#0B0F0E",
+    "surface": "#141A19",
+    "surfaceAlt": "#171F1E",
+    "brand": "#0E3A34",
+    "brandInk": "#5E706C",
+    "accent": "#FFC94A",
+    "ink": "#A8B5B2",
+    "inkMuted": "#4A5654",
+    "online": "#3DDC84",
+    "divider": "#1E2A28"
   },
   "radius": {
-    "sm": 12,
-    "md": 16,
-    "lg": 24
+    "bubble": 20,
+    "card": 16,
+    "button": 999,
+    "avatar": 999
   },
   "fonts": {
-    "display": "'Baloo 2', 'Quicksand', sans-serif",
-    "body": "'Quicksand', 'Nunito', sans-serif",
-    "meta": "'Quicksand', 'Nunito', sans-serif"
+    "display": "'Be Vietnam Pro', sans-serif",
+    "body": "'Inter', sans-serif",
+    "mono": "'JetBrains Mono', monospace"
   },
   "animation": {
-    "typingDefaultMs": 1000,
-    "typingLongMs": 2800,
-    "messageRecalledFlashMs": 400,
-    "glitchSubtleMs": 90
-  },
-  "roleAccents": {
-    "role_01_control": "#E6B8D4",
-    "role_02_obsession": "#F0D48A",
-    "role_03_isolation": "#B8E0D2",
-    "role_04_reality": "#C9B8E0",
-    "role_05_mask": "#F5B8A0",
-    "role_06_trust": "#A8C4D4",
-    "role_07_surrogate": "#D4A8D8",
-    "role_08_witness": "#E8DCC0"
+    "msgInMs": 220,
+    "choiceInMs": 180,
+    "choiceStaggerMs": 40,
+    "phantomFlickerOutMs": 60,
+    "phantomHoldMs": 30,
+    "phantomFlickerInMs": 60,
+    "roundShiftMs": 4000,
+    "pressMs": 120,
+    "typingDefaultMs": 900,
+    "typingLongMs": 3800
   }
 }
