@@ -192,11 +192,22 @@ export function Chat({
     setDraft("");
   }
 
+  // Guards against a fast double-tap re-firing a choice/forced handler while
+  // the previous tap's phantom-flicker timers are still in flight (which
+  // would double-send the player's line).
+  const resolvingRef = useRef(false);
+  useEffect(() => {
+    resolvingRef.current = false;
+  }, [pendingChoice]);
+
   function handleChoiceClick(option: ChoiceOption, index: number) {
+    if (resolvingRef.current) return;
     if (!option.isPhantom || option.swapToIndex === undefined) {
+      resolvingRef.current = true;
       sendPlayerText(renderText(option.text, lang, vars));
       return;
     }
+    resolvingRef.current = true;
     // phantom-swap: the tapped line flickers and is silently replaced (~150ms)
     setPhantomFlash({ index, label: renderText(option.text, lang, vars) });
     const options = (pendingChoice as { kind: "choice"; options: ChoiceOption[] }).options;
@@ -211,11 +222,15 @@ export function Chat({
   }
 
   function handleForcedSend() {
+    if (resolvingRef.current) return;
     if (!pendingChoice || pendingChoice.kind !== "forced") return;
+    resolvingRef.current = true;
     sendPlayerText(pendingChoice.text);
   }
 
   function handleNoReply() {
+    if (resolvingRef.current) return;
+    resolvingRef.current = true;
     setPendingChoice(null);
   }
 
