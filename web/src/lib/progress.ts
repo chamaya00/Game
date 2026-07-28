@@ -17,8 +17,9 @@ export function getChapterState(save: SaveData, characterId: string): ChapterSta
   const allRound1Done = done.every((d) => d === "round1_done" || d === "round2_done");
 
   if (done[idx] === "round2_done") return "round2_done";
+  const prevAllRound2Done = done.slice(0, idx).every((d) => d === "round2_done");
   if (done[idx] === "round1_done") {
-    return allRound1Done && save.theEndSeen ? "round2_available" : "round1_done";
+    return allRound1Done && save.theEndSeen && prevAllRound2Done ? "round2_available" : "round1_done";
   }
   // not started round1 yet for this character
   const prevAllStarted = done.slice(0, idx).every((d) => d === "round1_done" || d === "round2_done");
@@ -26,7 +27,6 @@ export function getChapterState(save: SaveData, characterId: string): ChapterSta
     return prevAllStarted ? "round1_available" : "locked";
   }
   // all 5 finished round1 — we're in the round2 phase; unlock round2 sequentially too
-  const prevAllRound2Done = done.slice(0, idx).every((d) => d === "round2_done");
   return prevAllRound2Done && save.theEndSeen ? "round2_available" : "locked";
 }
 
