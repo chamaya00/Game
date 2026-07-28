@@ -11,7 +11,7 @@ import { Settings } from "./screens/Settings";
 import { getCharacter } from "./data/content";
 import { loadSave, resetSave, writeSave } from "./lib/storage";
 import { getChapterState, round1CompletedCount, round2CompletedCount } from "./lib/progress";
-import { setSoundEnabled } from "./lib/sound";
+import { setMusicMode, setSoundEnabled } from "./lib/sound";
 import type { Lang, SaveData } from "./types";
 
 type Screen = "splash" | "onboarding" | "warning" | "list" | "chat" | "theend" | "profileflash" | "trueending" | "settings";
@@ -37,6 +37,19 @@ export default function App() {
   useEffect(() => {
     setSoundEnabled(save.soundOn);
   }, [save.soundOn]);
+
+  // Ambient music mood follows the same round1/round2 split as the visual
+  // palette — dark/dread screens (chat in round2 or revisit, THE END, the
+  // profile flash, the True Ending) get the round2 bed, everything else the
+  // round1 one. Crossfades handled inside setMusicMode.
+  useEffect(() => {
+    const dark =
+      screen === "theend" ||
+      screen === "profileflash" ||
+      screen === "trueending" ||
+      (screen === "chat" && (activeMode === "round2" || activeMode === "revisit"));
+    setMusicMode(dark ? "round2" : "round1");
+  }, [screen, activeMode]);
 
   // Once all 5 chapters have finished Round 1 (checked here, not just right
   // after the 5th one completes, so a reload mid-way still recovers into
