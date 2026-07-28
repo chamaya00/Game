@@ -94,7 +94,7 @@ export function Chat({
   }, []);
 
   useEffect(() => {
-    logEndRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    logEndRef.current?.scrollIntoView({ behavior: "auto", block: "end" });
   }, [log, pendingChoice, typing]);
 
   useEffect(() => {
