@@ -14,7 +14,7 @@ struct EpilogueView: View {
             Text("\(good) tốt · \(bad) xấu")
                 .font(.caption)
                 .foregroundColor(Palette.textMuted)
-            Text(epilogue.title)
+            Text(epilogue.title.text(.vi))
                 .font(.system(size: 24, weight: .bold, design: .rounded))
                 .foregroundColor(Palette.accentPrimary)
                 .padding(.bottom, 16)
@@ -22,7 +22,7 @@ struct EpilogueView: View {
             VStack(spacing: 8) {
                 ForEach(epilogue.beats.indices, id: \.self) { i in
                     if case .system(let s) = epilogue.beats[i] {
-                        Text(s.text)
+                        Text(s.text.text(.vi))
                             .font(.system(size: 14))
                             .multilineTextAlignment(.center)
                     }

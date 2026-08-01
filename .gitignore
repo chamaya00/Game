@@ -4,6 +4,9 @@ dist/
 *.log
 *.tsbuildinfo
 
+# scratch Playwright scripts used for manual verification during development
+web/test_*.mjs
+
 # iOS
 ios/Matched/Resources/*.json
 ios/**/xcuserdata/

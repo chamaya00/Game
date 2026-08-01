@@ -82,7 +82,7 @@ private struct ProfileCard: View {
                             .clipShape(Circle())
                     }
                 }
-                Text(profile.profileHook)
+                Text(profile.profileHook.rendered(.vi, name: profile.name))
                     .font(.system(size: 12))
                     .foregroundColor(Palette.textMuted)
                     .lineLimit(1)

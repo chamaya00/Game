@@ -5,6 +5,7 @@ struct EndingView: View {
     let gender: Gender
     let result: EndingResult
     let onContinue: () -> Void
+    var lang: Lang = .vi
 
     @State private var revealed = 0
 
@@ -17,7 +18,7 @@ struct EndingView: View {
                 .font(.caption)
                 .tracking(2)
                 .foregroundColor(Palette.textMuted)
-            Text(block.title)
+            Text(block.title.rendered(lang, name: name))
                 .font(.system(size: 24, weight: .bold, design: .rounded))
                 .foregroundColor(Palette.accentPrimary)
                 .padding(.bottom, 16)
@@ -52,13 +53,13 @@ struct EndingView: View {
     private func beatView(_ beat: Beat) -> some View {
         switch beat {
         case .system(let s):
-            Text(s.text.interpolated(name: name))
+            Text(s.text.rendered(lang, name: name))
                 .font(.caption)
                 .italic()
                 .foregroundColor(Palette.textMuted)
                 .multilineTextAlignment(.center)
         case .npc(let n):
-            Text(n.text.interpolated(name: name))
+            Text(n.text.rendered(lang, name: name))
                 .font(.system(size: 14))
                 .padding(10)
                 .background(Palette.bubbleNpc)

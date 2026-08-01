@@ -21,6 +21,10 @@ enum PendingChoiceKind {
 /// dialogue plays out with a typing delay, choice beats pause the queue
 /// until the player picks an option, and picking a flavor/midpoint choice
 /// splices its response/branch back onto the front of the queue.
+///
+/// NOTE: unlike the web build, this scaffold doesn't have a language toggle
+/// wired into the UI yet — `lang` defaults to `.vi` and would need a setting
+/// threaded in from a SwiftUI view to support switching at runtime.
 final class ChatViewModel: ObservableObject {
     @Published var log: [DisplayMessage] = []
     @Published var typing = false
@@ -30,13 +34,15 @@ final class ChatViewModel: ObservableObject {
 
     let role: Role
     let gender: Gender
+    let lang: Lang
     private var queue: [Beat]
 
     var name: String { gender == .female ? role.variants.female.name : role.variants.male.name }
 
-    init(role: Role, gender: Gender) {
+    init(role: Role, gender: Gender, lang: Lang = .vi) {
         self.role = role
         self.gender = gender
+        self.lang = lang
         self.queue = role.beats
     }
 
@@ -72,7 +78,7 @@ final class ChatViewModel: ObservableObject {
             }
 
         case .system(let s):
-            log.append(DisplayMessage(speaker: .system, text: s.text.interpolated(name: name)))
+            log.append(DisplayMessage(speaker: .system, text: s.text.rendered(lang, name: name)))
             processNext()
 
         case .npc(let n):
@@ -88,7 +94,7 @@ final class ChatViewModel: ObservableObject {
         DispatchQueue.main.asyncAfter(deadline: .now() + delayMs / 1000) { [weak self] in
             guard let self else { return }
             self.typing = false
-            let text = beat.text.interpolated(name: self.name)
+            let text = beat.text.rendered(self.lang, name: self.name)
 
             if beat.effect == "glitch_subtle" {
                 self.glitching = true
@@ -106,7 +112,7 @@ final class ChatViewModel: ObservableObject {
                 let flashMs = tokens["messageRecalledFlashMs"] ?? 400
                 DispatchQueue.main.asyncAfter(deadline: .now() + flashMs / 1000) {
                     guard let idx = self.log.firstIndex(where: { $0.id == message.id }) else { return }
-                    self.log[idx].text = "Tin nhắn đã được thu hồi."
+                    self.log[idx].text = self.lang == .en ? "This message was recalled." : "Tin nhắn đã được thu hồi."
                     self.log[idx].recalled = true
                 }
             }
@@ -120,21 +126,21 @@ final class ChatViewModel: ObservableObject {
     }
 
     func chooseFlavor(_ option: FlavorOption) {
-        log.append(DisplayMessage(speaker: .player, text: option.text))
+        log.append(DisplayMessage(speaker: .player, text: option.text.rendered(lang, name: name)))
         pendingChoice = nil
         queue.insert(.npc(NpcBeat(text: option.response, clue: nil, effect: nil)), at: 0)
         processNext()
     }
 
     func chooseMidpoint(_ option: BranchOption) {
-        log.append(DisplayMessage(speaker: .player, text: option.text))
+        log.append(DisplayMessage(speaker: .player, text: option.text.rendered(lang, name: name)))
         pendingChoice = nil
         queue.insert(contentsOf: option.branch, at: 0)
         processNext()
     }
 
     func chooseFinal(_ option: FinalOption) {
-        log.append(DisplayMessage(speaker: .player, text: option.text))
+        log.append(DisplayMessage(speaker: .player, text: option.text.rendered(lang, name: name)))
         pendingChoice = nil
         finished = option.leadsTo == "good" ? .good : .bad
     }

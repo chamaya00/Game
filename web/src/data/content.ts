@@ -1,53 +1,83 @@
-import rolesJson from "@content/roles.json";
+import charactersJson from "@content/characters.json";
+import mysteryJson from "@content/mystery.json";
 import tokensJson from "@content/design-tokens.json";
-import type { ContentData, DesignTokens, Gender, Orientation, Profile, Role } from "../types";
+import uiStringsJson from "@content/ui-strings.json";
+import type {
+  Character,
+  DesignTokens,
+  InputMode,
+  Lang,
+  LocalizedText,
+  SharedKey,
+  SharedLines,
+  TrueEndingData,
+} from "../types";
 
-export const content = rolesJson as unknown as ContentData;
-export const tokens = tokensJson as unknown as DesignTokens;
-
-export function interpolate(text: string, name: string): string {
-  return text.split("{name}").join(name);
+interface MysteryData {
+  sharedLines: SharedLines;
+  trueEnding: TrueEndingData;
 }
 
-export function getRole(roleId: string): Role {
-  const role = content.roles.find((r) => r.id === roleId);
-  if (!role) throw new Error(`Unknown role id: ${roleId}`);
-  return role;
+export const content = charactersJson as unknown as { characters: Character[] };
+export const mystery = mysteryJson as unknown as MysteryData;
+export const tokens = tokensJson as unknown as DesignTokens;
+const uiStrings = uiStringsJson as unknown as Record<string, LocalizedText>;
+
+export function localize(loc: LocalizedText, lang: Lang): string {
+  return loc[lang] ?? loc.vi;
+}
+
+/** Replaces {name}/{handle}/{playerName}-style placeholders in a string. */
+export function interpolate(text: string, vars: Record<string, string>): string {
+  let result = text;
+  for (const [k, v] of Object.entries(vars)) {
+    result = result.split(`{${k}}`).join(v);
+  }
+  return result;
+}
+
+export function renderText(loc: LocalizedText, lang: Lang, vars: Record<string, string>): string {
+  return interpolate(localize(loc, lang), vars);
+}
+
+export function ui(key: keyof typeof uiStrings, lang: Lang, vars?: Record<string, string | number>): string {
+  const loc = uiStrings[key];
+  let text = localize(loc, lang);
+  if (vars) {
+    for (const [k, v] of Object.entries(vars)) {
+      text = text.split(`{${k}}`).join(String(v));
+    }
+  }
+  return text;
+}
+
+export function getCharacter(id: string): Character {
+  const c = content.characters.find((ch) => ch.id === id);
+  if (!c) throw new Error(`Unknown character id: ${id}`);
+  return c;
+}
+
+export function getCharacters(): Character[] {
+  return [...content.characters].sort((a, b) => a.order - b.order);
+}
+
+export function sharedLine(key: SharedKey, lang: Lang): string {
+  return localize(mystery.sharedLines[key], lang);
 }
 
 /**
- * Builds the list of playable profiles for a given orientation.
- * "both" shows both gender-variants of every role (16 profiles) until the
- * player matches one variant of a role — from then on only that played
- * variant is shown, since both variants are "the same role" in the mystery
- * and only one can be played per playthrough (GDD section 2.0).
+ * Round 2 input escalation (GDD section 9.2/9.9), keyed off a character's
+ * chapter order: 1-2 manual tap, 3 prefilled, 4 autotype, 5 autotype+autosend.
  */
-export function buildProfileList(
-  orientation: Orientation,
-  playedGender: Record<string, Gender>
-): Profile[] {
-  const profiles: Profile[] = [];
+export function getInputMode(order: number): InputMode {
+  if (order >= 5) return "autotype_autosend";
+  if (order === 4) return "autotype";
+  if (order === 3) return "prefilled";
+  return "manual";
+}
 
-  for (const role of content.roles) {
-    const genders: Gender[] =
-      orientation === "both"
-        ? playedGender[role.id]
-          ? [playedGender[role.id]]
-          : ["female", "male"]
-        : [orientation];
-
-    for (const gender of genders) {
-      const variant = role.variants[gender];
-      profiles.push({
-        roleId: role.id,
-        gender,
-        name: variant.name,
-        accentColor: role.accentColor,
-        profileHook: role.profileHook,
-        order: role.order,
-      });
-    }
-  }
-
-  return profiles.sort((a, b) => a.order - b.order);
+export function timeSkipKey(unit: "day" | "week" | "month"): "time.later_d" | "time.later_w" | "time.later_m" {
+  if (unit === "week") return "time.later_w";
+  if (unit === "month") return "time.later_m";
+  return "time.later_d";
 }

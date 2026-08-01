@@ -1,13 +1,17 @@
 import type { SaveData } from "../types";
 
-const STORAGE_KEY = "matched.save.v1";
+const STORAGE_KEY = "meetgreet.save.v1";
 
 function emptySave(): SaveData {
   return {
-    orientation: null,
-    completedEndings: {},
-    playedGender: {},
-    epilogueSeen: false,
+    lang: "vi",
+    playerName: "",
+    contentWarningSeen: false,
+    theEndSeen: false,
+    progress: {},
+    phantomTapped: {},
+    seenAt: {},
+    soundOn: true,
   };
 }
 
@@ -23,9 +27,18 @@ export function loadSave(): SaveData {
 }
 
 export function writeSave(save: SaveData): void {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(save));
+  } catch {
+    // localStorage can be unavailable (privacy mode, sandboxed iframe,
+    // storage partitioning). Progress just won't persist across reloads.
+  }
 }
 
 export function resetSave(): void {
-  localStorage.removeItem(STORAGE_KEY);
+  try {
+    localStorage.removeItem(STORAGE_KEY);
+  } catch {
+    // see writeSave
+  }
 }
