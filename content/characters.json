@@ -774,8 +774,8 @@
       }
     },
     {
-      "id": "nhien",
-      "handle": "nhien",
+      "id": "anh",
+      "handle": "anh",
       "order": 5,
       "avatarColor": "#E8E4F5",
       "avatarIcon": "cat",
@@ -849,7 +849,7 @@
       ],
       "round1Ending": {
         "title": { "vi": "Cậu Không Làm Quá", "en": "You're Not Overreacting" },
-        "note": { "vi": "Nhiên có một người tin mình. Em ấy quay lại lớp.", "en": "Nhiên had someone who believed her. She went back to class." }
+        "note": { "vi": "Anh có một người tin mình. Em ấy quay lại lớp.", "en": "Anh had someone who believed her. She went back to class." }
       },
       "round2": [
         { "type": "time_skip", "n": 2, "unit": "week" },
@@ -884,7 +884,7 @@
           { "type": "time_skip", "n": 6, "unit": "day" },
           { "type": "system", "text": { "vi": "Không có tin nhắn mới.", "en": "No new messages." } },
           { "type": "time_skip", "n": 18, "unit": "day" },
-          { "type": "system", "text": { "vi": "Tài khoản `nhien` đã ngừng hoạt động.", "en": "The account `nhien` is no longer active." } },
+          { "type": "system", "text": { "vi": "Tài khoản `anh` đã ngừng hoạt động.", "en": "The account `anh` is no longer active." } },
           { "type": "system", "text": { "vi": "(Màn hình đứng yên 10 giây. Không có gì xảy ra.)", "en": "(The screen stays still for 10 seconds. Nothing happens.)" } }
         ],
         "profileFlash": {
