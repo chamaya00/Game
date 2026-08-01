@@ -38,7 +38,7 @@ npm run dev
 ```
 
 Then open the printed local URL. Progress saves to `localStorage`. The five
-chapters unlock strictly in order (Hạo → Diệp → Uyên → Khang → Nhiên) for
+chapters unlock strictly in order (Hạo → Diệp → Uyên → Khang → Anh) for
 both rounds — the escalating glitches and the True Ending depend on that
 fixed sequence, so chapters aren't freely choosable like a normal dating sim.
 

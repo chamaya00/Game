@@ -5,7 +5,7 @@ export type ChapterState = "locked" | "round1_available" | "round1_done" | "roun
 
 /**
  * The game unlocks its 5 chapters strictly in order (Hạo -> Diệp -> Uyên ->
- * Khang -> Nhiên) for each round — the escalating horror in section 9 and
+ * Khang -> Anh) for each round — the escalating horror in section 9 and
  * the input-mode escalation in section 9.2 both depend on "which chapter
  * number" the player has reached, not free choice.
  */
