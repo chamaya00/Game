@@ -84,6 +84,48 @@ button {
   animation: screen-glitch 180ms steps(4, end);
 }
 
+/* Jumpscare: a hard cut to the player's own face, then gone */
+.jumpscare {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+.jumpscare-flash {
+  background: #e8eceb;
+}
+.jumpscare-face {
+  background: #05070a;
+  animation: jumpscare-jitter 90ms steps(2, end) infinite;
+}
+.jumpscare-out {
+  background: transparent;
+  opacity: 0;
+  transition: opacity 180ms ease-out;
+}
+@keyframes jumpscare-jitter {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(-4px, 3px) scale(1.03); }
+  100% { transform: translate(3px, -2px) scale(1); }
+}
+
+/* The whole screen recoiling from the scare */
+@keyframes screen-lurch {
+  0% { transform: translate(0, 0); }
+  15% { transform: translate(-9px, 4px) rotate(-0.6deg); }
+  30% { transform: translate(8px, -5px) rotate(0.5deg); }
+  45% { transform: translate(-6px, -3px) rotate(-0.35deg); }
+  60% { transform: translate(5px, 4px) rotate(0.25deg); }
+  80% { transform: translate(-2px, -1px); }
+  100% { transform: translate(0, 0); }
+}
+.screen-lurching {
+  animation: screen-lurch 520ms ease-out;
+}
+
 /* A Round 1 line "rewriting itself" live in front of the player (GDD 9.8) */
 @keyframes history-glitch {
   0% { filter: none; }
@@ -595,6 +637,69 @@ button {
   transition: opacity 900ms ease-in;
 }
 .scene2-line.show {
+  opacity: 1;
+}
+
+/* Interlude — the player's own room, between conversations */
+.interlude-screen {
+  background: #06090c;
+  color: #b9c6c2;
+  padding: 40px 28px;
+  justify-content: center;
+  gap: 0;
+  overflow-y: auto;
+}
+.interlude-portrait {
+  align-self: center;
+  margin-bottom: 32px;
+  opacity: 0;
+  transition: opacity 2200ms ease-in;
+}
+.interlude-portrait.show {
+  opacity: 0.85;
+}
+.interlude-line {
+  font-size: 16px;
+  line-height: 1.85;
+  margin-bottom: 18px;
+  opacity: 0;
+  transform: translateY(6px);
+  transition: opacity 1200ms ease-in, transform 1200ms ease-out;
+  max-width: 30em;
+}
+.interlude-line.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+.interlude-line.thought {
+  color: #dbe6e3;
+}
+.interlude-line.narration {
+  color: #7f918d;
+}
+.interlude-line.file {
+  font-family: var(--font-mono);
+  font-size: 13.5px;
+  color: #6f8b84;
+  border-left: 2px solid #223029;
+  padding-left: 14px;
+  line-height: 1.7;
+}
+.interlude-continue {
+  margin-top: 28px;
+  align-self: flex-start;
+  background: transparent;
+  border: 1.5px solid #2c3a37;
+  color: #b9c6c2;
+  border-radius: var(--r-button);
+  padding: 13px 28px;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  opacity: 0;
+  transition: opacity 900ms ease-in;
+}
+.interlude-continue.show {
   opacity: 1;
 }
 

@@ -1,13 +1,16 @@
 import charactersJson from "@content/characters.json";
 import mysteryJson from "@content/mystery.json";
+import protagonistJson from "@content/protagonist.json";
 import tokensJson from "@content/design-tokens.json";
 import uiStringsJson from "@content/ui-strings.json";
 import type {
   Character,
   DesignTokens,
   InputMode,
+  Interlude,
   Lang,
   LocalizedText,
+  ProtagonistData,
   SharedKey,
   SharedLines,
   TrueEndingData,
@@ -20,6 +23,7 @@ interface MysteryData {
 
 export const content = charactersJson as unknown as { characters: Character[] };
 export const mystery = mysteryJson as unknown as MysteryData;
+export const protagonist = protagonistJson as unknown as ProtagonistData;
 export const tokens = tokensJson as unknown as DesignTokens;
 const uiStrings = uiStringsJson as unknown as Record<string, LocalizedText>;
 
@@ -63,6 +67,11 @@ export function getCharacters(): Character[] {
 
 export function sharedLine(key: SharedKey, lang: Lang): string {
   return localize(mystery.sharedLines[key], lang);
+}
+
+/** The interlude that plays after a given character's Round 2 chapter closes. */
+export function getInterlude(characterId: string): Interlude | undefined {
+  return protagonist.interludes.find((i) => i.after === characterId);
 }
 
 /**

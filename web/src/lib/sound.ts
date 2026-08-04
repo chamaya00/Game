@@ -124,6 +124,51 @@ export function playWhisper() {
   noise.stop(t + 1.2);
 }
 
+/**
+ * The jumpscare stinger: a hard noise burst plus a dissonant cluster that
+ * snaps off almost immediately. Loud relative to everything else in the mix
+ * on purpose — but still gain-limited, and still routed through the same
+ * mute toggle as every other sound in the game.
+ */
+export function playJumpscare() {
+  const ac = ensureCtx();
+  if (!ac || !sfxGain) return;
+  const t = ac.currentTime;
+
+  // noise burst
+  const len = Math.floor(ac.sampleRate * 0.5);
+  const buffer = ac.createBuffer(1, len, ac.sampleRate);
+  const data = buffer.getChannelData(0);
+  for (let i = 0; i < len; i++) {
+    // decays fast so it hits like an impact rather than a wash
+    data[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.5);
+  }
+  const noise = ac.createBufferSource();
+  noise.buffer = buffer;
+  const noiseGain = ac.createGain();
+  noiseGain.gain.setValueAtTime(0.28, t);
+  noiseGain.gain.exponentialRampToValueAtTime(0.0001, t + 0.45);
+  noise.connect(noiseGain);
+  noiseGain.connect(sfxGain);
+  noise.start(t);
+  noise.stop(t + 0.5);
+
+  // dissonant cluster on top of the burst
+  [82.4, 87.3, 116.5].forEach((f) => {
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+    osc.type = "sawtooth";
+    osc.frequency.setValueAtTime(f * 2, t);
+    osc.frequency.exponentialRampToValueAtTime(f, t + 0.35);
+    g.gain.setValueAtTime(0.09, t);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.4);
+    osc.connect(g);
+    g.connect(sfxGain!);
+    osc.start(t);
+    osc.stop(t + 0.45);
+  });
+}
+
 /** A low, uneasy tone for a bad-ending / ghi_chu.txt reveal. */
 export function playDread() {
   const ac = ensureCtx();

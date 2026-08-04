@@ -1,0 +1,78 @@
+{
+  "ageAtVideo": 18,
+  "ageNow": 24,
+  "entryDate": "12/2021",
+  "interludes": [
+    {
+      "after": "hao",
+      "faceStage": 0,
+      "lines": [
+        { "kind": "narration", "text": { "vi": "Cậu đóng điện thoại lại.", "en": "You put the phone down." }, "holdMs": 1400 },
+        { "kind": "narration", "text": { "vi": "Phòng cậu vẫn thế. Rèm kéo kín từ hồi nào không nhớ. Đèn bàn là thứ duy nhất còn sáng.", "en": "Your room hasn't changed. The curtains have been shut since you stopped keeping track. The desk lamp is the only thing still on." }, "holdMs": 2000 },
+        { "kind": "narration", "text": { "vi": "Trên bàn có một cuốn sổ. Cậu mở nó ra như mọi lần.", "en": "There's a notebook on the desk. You open it, the way you always do." }, "holdMs": 1800 },
+        { "kind": "file", "text": { "vi": "haoo_ — ca đêm. sống một mình. con chó tên Mì, 11 tuổi. ba mẹ ở quê. gọi về thì không biết nói gì.", "en": "haoo_ — night shift. lives alone. a dog named Mì, 11 years old. parents in the countryside. calls home and doesn't know what to say." }, "holdMs": 2200 },
+        { "kind": "file", "text": { "vi": "\"im cả tuần cũng chả ai để ý đâu\" — 2h47 sáng.", "en": "\"go quiet a whole week, no one'd notice anyway\" — 2:47am." }, "holdMs": 2000 },
+        { "kind": "thought", "text": { "vi": "Cậu ấy nói câu đó lúc đang cười.", "en": "He was laughing when he said it." }, "holdMs": 1800 },
+        { "kind": "thought", "text": { "vi": "Cậu gạch chân nó hai lần.", "en": "You underline it twice." }, "holdMs": 1600 },
+        { "kind": "narration", "text": { "vi": "Cậu đóng sổ. Còn bốn người nữa.", "en": "You close the notebook. Four more to go." }, "holdMs": 2200 }
+      ]
+    },
+    {
+      "after": "diep",
+      "faceStage": 1,
+      "lines": [
+        { "kind": "narration", "text": { "vi": "Ba giờ sáng. Cậu không nhớ mình đã ngồi đây bao lâu.", "en": "Three in the morning. You don't remember how long you've been sitting here." }, "holdMs": 1800 },
+        { "kind": "narration", "text": { "vi": "Diệp nói cô ấy kéo rèm rồi. Cậu nhìn cái rèm nhà mình.", "en": "Diệp said she closed her curtains. You look at your own curtains." }, "holdMs": 2200 },
+        { "kind": "thought", "text": { "vi": "Cậu kéo rèm từ năm 18 tuổi.", "en": "Yours have been shut since you were eighteen." }, "holdMs": 2000 },
+        { "kind": "narration", "text": { "vi": "Có một thư mục trong máy cậu không bao giờ mở. Tên nó là một dãy số. Cậu biết dãy số đó là ngày gì.", "en": "There's a folder on your computer you never open. Its name is a string of numbers. You know what date those numbers are." }, "holdMs": 2400 },
+        { "kind": "thought", "text": { "vi": "Cậu không mở nó. Cậu mở đoạn chat của Diệp và đọc lại từ đầu.", "en": "You don't open it. You open Diệp's thread and read it from the top." }, "holdMs": 2200 },
+        { "kind": "thought", "text": { "vi": "Đọc tới đoạn cô ấy kể chuyện thư viện, cậu thấy dễ chịu.", "en": "When you reach the part about the library, something in you eases." }, "holdMs": 2000 },
+        { "kind": "thought", "text": { "vi": "Cậu không muốn gọi tên cái cảm giác đó.", "en": "You don't want to name that feeling." }, "holdMs": 2200 },
+        { "kind": "file", "text": { "vi": "diep.02 — \"mình không thích bị nhìn.\" xong.", "en": "diep.02 — \"i don't like being looked at.\" done." }, "holdMs": 2400 }
+      ]
+    },
+    {
+      "after": "uyen",
+      "faceStage": 2,
+      "lines": [
+        { "kind": "narration", "text": { "vi": "8 giờ tối. Cậu mở livestream của Uyên.", "en": "8pm. You open Uyên's livestream." }, "holdMs": 1800 },
+        { "kind": "narration", "text": { "vi": "Bốn nghìn người đang xem. Cô ấy ngồi trước máy, tay run, cố giải thích.", "en": "Four thousand people watching. She sits in front of the camera, hands shaking, trying to explain." }, "holdMs": 2400 },
+        { "kind": "narration", "text": { "vi": "Bình luận chạy nhanh quá, không đọc kịp. Cậu vẫn đọc.", "en": "The comments scroll too fast to read. You read them anyway." }, "holdMs": 2000 },
+        { "kind": "thought", "text": { "vi": "Cậu biết chính xác cô ấy đang thấy gì. Cậu biết tim cô ấy đang đập kiểu gì.", "en": "You know exactly what she's seeing. You know exactly how her heart is beating." }, "holdMs": 2400 },
+        { "kind": "thought", "text": { "vi": "Cậu từng ngồi đúng chỗ đó. Cùng cái ghế. Cùng cái màn hình sáng vào mặt.", "en": "You sat in that exact seat once. Same chair. Same screen lighting up your face." }, "holdMs": 2600 },
+        { "kind": "thought", "text": { "vi": "Cậu là người duy nhất trên đời hiểu cô ấy lúc này.", "en": "You are the only person alive who understands her right now." }, "holdMs": 2400 },
+        { "kind": "thought", "text": { "vi": "Và cậu là người đã bảo cô ấy lên sóng.", "en": "And you are the one who told her to go live." }, "holdMs": 2800 },
+        { "kind": "narration", "text": { "vi": "Cậu không tắt màn hình. Cậu xem hết.", "en": "You don't turn it off. You watch to the end." }, "holdMs": 2600 }
+      ]
+    },
+    {
+      "after": "khang",
+      "faceStage": 3,
+      "lines": [
+        { "kind": "narration", "text": { "vi": "Điện thoại cậu rung. Không phải app. Là mẹ cậu gọi.", "en": "Your phone buzzes. Not the app. It's your mother calling." }, "holdMs": 2200 },
+        { "kind": "narration", "text": { "vi": "Cậu để nó rung hết. Rồi cậu nhắn lại: \"con vẫn ổn.\"", "en": "You let it ring out. Then you text back: \"i'm fine.\"" }, "holdMs": 2600 },
+        { "kind": "thought", "text": { "vi": "Hạo cũng từng nói với cậu đúng ba chữ đó. Về mẹ cậu ấy.", "en": "Hạo said those exact words to you once. About his own mother." }, "holdMs": 2400 },
+        { "kind": "thought", "text": { "vi": "Cậu đã ghi lại. Cậu đã dùng nó.", "en": "You wrote it down. You used it." }, "holdMs": 2200 },
+        { "kind": "narration", "text": { "vi": "Khang có một đứa con gái bốn tuổi tên Su. Cậu nhớ điều đó mà không cần mở sổ.", "en": "Khang has a four-year-old daughter named Su. You remember that without opening the notebook." }, "holdMs": 2400 },
+        { "kind": "thought", "text": { "vi": "Cậu nhớ hết. Cậu nhớ tên con chó, giờ đi chợ, tiếng em bé nhà bên lúc 6 giờ.", "en": "You remember all of it. The dog's name, the market hour, the baby next door at six." }, "holdMs": 2600 },
+        { "kind": "thought", "text": { "vi": "Không ai từng nhớ về cậu nhiều như vậy.", "en": "No one has ever remembered that much about you." }, "holdMs": 2800 },
+        { "kind": "file", "text": { "vi": "khang_ng — xong. còn 1.", "en": "khang_ng — done. 1 left." }, "holdMs": 2400 }
+      ]
+    },
+    {
+      "after": "nhien",
+      "faceStage": 4,
+      "lines": [
+        { "kind": "narration", "text": { "vi": "Cậu ngồi rất lâu sau khi đoạn chat của Nhiên tắt.", "en": "You sit for a long time after Nhiên's thread goes dark." }, "holdMs": 2600 },
+        { "kind": "thought", "text": { "vi": "Em ấy mười chín tuổi.", "en": "She was nineteen." }, "holdMs": 2200 },
+        { "kind": "thought", "text": { "vi": "Em ấy gọi về nhà. Em ấy nói con không ổn.", "en": "She called home. She said she wasn't okay." }, "holdMs": 2400 },
+        { "kind": "thought", "text": { "vi": "Mẹ em ấy nói đúng cái câu mẹ cậu từng nói với cậu.", "en": "Her mother said the exact sentence your mother once said to you." }, "holdMs": 2800 },
+        { "kind": "thought", "text": { "vi": "Cậu nghe câu đó. Cậu nhận ra nó. Cậu biết chính xác nó làm gì với một người.", "en": "You heard it. You recognised it. You knew exactly what it does to a person." }, "holdMs": 3000 },
+        { "kind": "thought", "text": { "vi": "Rồi cậu gõ lại đúng câu đó cho em ấy.", "en": "And then you typed that same sentence back to her." }, "holdMs": 3200 },
+        { "kind": "narration", "text": { "vi": "Cuốn sổ đã đầy. Năm cái tên, gạch chân, ngày tháng, giờ giấc.", "en": "The notebook is full. Five names, underlined, dated, timestamped." }, "holdMs": 2600 },
+        { "kind": "narration", "text": { "vi": "Cậu lật về trang đầu để xem mình đã bắt đầu từ bao giờ.", "en": "You turn back to the first page to see when you started." }, "holdMs": 2600 },
+        { "kind": "narration", "text": { "vi": "Trang đầu không phải tên ai trong số họ.", "en": "The first page isn't any of their names." }, "holdMs": 3000 }
+      ]
+    }
+  ]
+}

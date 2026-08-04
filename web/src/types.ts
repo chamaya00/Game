@@ -19,7 +19,7 @@ export interface ChoiceOption {
 
 // A single unified beat type used by both Round 1 and Round 2 sequences.
 export type Beat =
-  | { type: "npc"; text: LocalizedText; effect?: "typing_long" | "glitch" }
+  | { type: "npc"; text: LocalizedText; effect?: "typing_long" | "glitch" | "jumpscare" }
   | { type: "system"; text: LocalizedText }
   | { type: "time_skip"; n: number; unit: TimeUnit }
   | { type: "choice"; options: ChoiceOption[] }
@@ -56,6 +56,38 @@ export interface Character {
   badEnding: BadEnding;
 }
 
+/**
+ * The narrative beat that plays after each Round 2 chapter closes — the
+ * player's own point of view, in their own room, writing their own file.
+ * This is where the story between conversations actually gets told: the
+ * chat threads show what the player *does*, the interludes show who is
+ * doing it and what it is costing them.
+ */
+export interface InterludeLine {
+  text: LocalizedText;
+  /** "narration" = the room around them; "thought" = their own voice; "file" = what they type into ghi_chu.txt */
+  kind?: "narration" | "thought" | "file";
+  /** Pause after this line, in ms — used to let a beat land before the next one fades in. */
+  holdMs?: number;
+}
+
+export interface Interlude {
+  /** characterId this interlude follows. */
+  after: string;
+  /** How much of the protagonist's own face has resolved by this point, 0-4. */
+  faceStage: number;
+  lines: InterludeLine[];
+}
+
+export interface ProtagonistData {
+  /** What the app itself calls them — always their own onboarding name. */
+  ageAtVideo: number;
+  ageNow: number;
+  /** Shown in the True Ending file as their own entry. */
+  entryDate: string;
+  interludes: Interlude[];
+}
+
 export interface SharedLines {
   the_line: LocalizedText;
   the_question: LocalizedText;
@@ -87,6 +119,7 @@ export interface ContentData {
   characters: Character[];
   sharedLines: SharedLines;
   trueEnding: TrueEndingData;
+  protagonist: ProtagonistData;
 }
 
 export interface DesignTokens {

@@ -7,14 +7,25 @@ import { Chat, type ChatMode } from "./screens/Chat";
 import { TheEnd } from "./screens/TheEnd";
 import { ProfileFlash } from "./screens/ProfileFlash";
 import { TrueEnding } from "./screens/TrueEnding";
+import { InterludeScreen } from "./screens/InterludeScreen";
 import { Settings } from "./screens/Settings";
-import { getCharacter } from "./data/content";
+import { getCharacter, getInterlude } from "./data/content";
 import { loadSave, resetSave, writeSave } from "./lib/storage";
 import { getChapterState, round1CompletedCount, round2CompletedCount } from "./lib/progress";
 import { setMusicMode, setSoundEnabled } from "./lib/sound";
 import type { Lang, SaveData } from "./types";
 
-type Screen = "splash" | "onboarding" | "warning" | "list" | "chat" | "theend" | "profileflash" | "trueending" | "settings";
+type Screen =
+  | "splash"
+  | "onboarding"
+  | "warning"
+  | "list"
+  | "chat"
+  | "theend"
+  | "profileflash"
+  | "interlude"
+  | "trueending"
+  | "settings";
 
 function initialScreen(save: SaveData): Screen {
   if (!save.playerName) return "splash";
@@ -46,6 +57,7 @@ export default function App() {
     const dark =
       screen === "theend" ||
       screen === "profileflash" ||
+      screen === "interlude" ||
       screen === "trueending" ||
       (screen === "chat" && (activeMode === "round2" || activeMode === "revisit"));
     setMusicMode(dark ? "round2" : "round1");
@@ -109,12 +121,16 @@ export default function App() {
 
   function handleProfileFlashDone() {
     if (!activeId) return;
+    // Every Round 2 chapter now hands off to the interlude — the story
+    // between conversations is told from the player's own room, not left
+    // as a gap between chat threads.
+    setScreen(getInterlude(activeId) ? "interlude" : "list");
+  }
+
+  function handleInterludeDone() {
+    if (!activeId) return;
     const character = getCharacter(activeId);
-    if (character.order >= 5) {
-      setScreen("trueending");
-    } else {
-      setScreen("list");
-    }
+    setScreen(character.order >= 5 ? "trueending" : "list");
   }
 
   function handleTrueEndingFinished(choice: "loop" | "stopped") {
@@ -192,6 +208,10 @@ export default function App() {
 
       {screen === "profileflash" && activeCharacter && (
         <ProfileFlash character={activeCharacter} lang={lang} onDone={handleProfileFlashDone} />
+      )}
+
+      {screen === "interlude" && activeId && getInterlude(activeId) && (
+        <InterludeScreen interlude={getInterlude(activeId)!} lang={lang} onDone={handleInterludeDone} />
       )}
 
       {screen === "trueending" && <TrueEnding lang={lang} onFinished={handleTrueEndingFinished} />}

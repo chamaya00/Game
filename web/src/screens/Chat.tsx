@@ -2,9 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import type { Beat, Character, ChoiceOption, InputMode, Lang } from "../types";
 import { getInputMode, renderText, sharedLine, tokens, ui } from "../data/content";
 import { resolveHistory, resolveHistoryWithReveal, type ReplayMessage } from "../lib/historyReplay";
-import { playGlitch, playReceive, playSend, playTap, playWhisper } from "../lib/sound";
+import { playGlitch, playJumpscare, playReceive, playSend, playTap, playWhisper } from "../lib/sound";
 import { LangToggle } from "../components/LangToggle";
 import { CharacterAvatar } from "../components/CharacterAvatar";
+import { Jumpscare } from "../components/Jumpscare";
 
 export type ChatMode = "round1" | "round2" | "revisit";
 
@@ -120,6 +121,8 @@ export function Chat({
   const msgIndexRef = useRef(0);
   const [screenGlitching, setScreenGlitching] = useState(false);
   const [ghostTyping, setGhostTyping] = useState(false);
+  const [jumpscare, setJumpscare] = useState(false);
+  const [lurching, setLurching] = useState(false);
 
   useEffect(() => {
     return () => {
@@ -257,7 +260,14 @@ export function Chat({
     timerRef.current = window.setTimeout(() => {
       setTyping(false);
       pushMessage({ speaker: "npc", text: renderText(beat.text, lang, vars) });
-      if (beat.effect === "glitch") {
+      if (beat.effect === "jumpscare") {
+        // The hard scare, placed on the line where the player is looking
+        // straight at what they are. The face that flashes is their own.
+        playJumpscare();
+        setJumpscare(true);
+        setLurching(true);
+        window.setTimeout(() => setLurching(false), 540);
+      } else if (beat.effect === "glitch") {
         // The screen itself flinches exactly when a line reveals that
         // something said only to "you" has leaked out — the glitch should
         // land on the moment, not just decorate the room around it.
@@ -354,7 +364,12 @@ export function Chat({
   const isRound2Palette = mode === "round2" || mode === "revisit";
 
   return (
-    <div className={`screen chat-screen${isRound2Palette ? " round2" : ""}${screenGlitching ? " screen-glitching" : ""}`}>
+    <div
+      className={`screen chat-screen${isRound2Palette ? " round2" : ""}${screenGlitching ? " screen-glitching" : ""}${
+        lurching ? " screen-lurching" : ""
+      }`}
+    >
+      {jumpscare && <Jumpscare onDone={() => setJumpscare(false)} />}
       <header className="chat-header">
         <button className="icon-btn" onClick={onBack} aria-label={ui("chat.back.aria", lang)}>
           ←
